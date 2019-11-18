@@ -18,6 +18,9 @@ import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 
 import AdminUsuarios from "../Usuarios/AdminUsuarios";
 import Tabla from "../Usuarios/Tabla";
+import SignInSide from "../Login/SignInSide";
+import Prueba from "../Usuarios/Prueba";
+import SignUp from "../Login/SignUp";
 
 const drawerWidth = 240;
 
@@ -44,6 +47,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function ClippedDrawer() {
   const classes = useStyles();
+
+  const cambioCuerpo = cuerpo => {
+    if (cuerpo == "admin") {
+      return <Tabla />;
+    } else {
+      return <SignInSide />;
+    }
+  };
 
   function cambioDeNav(usuario) {
     if (usuario === "jose") {
@@ -112,8 +123,7 @@ export default function ClippedDrawer() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <AdminUsuarios />
-        <Tabla />
+        <React.Fragment>{cambioCuerpo("admin")}</React.Fragment>
       </main>
     </div>
   );

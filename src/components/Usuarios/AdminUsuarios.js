@@ -7,10 +7,15 @@ export default class AdminUsuarios extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(`https://localhost:44353/api/content/getusuario`).then(res => {
-      console.log(res.data);
-      this.setState({ personas: res.data });
-    });
+    axios.get(`https://localhost:44353/api/content/getusuario`).then(
+      res => {
+        // console.log(res.data);
+        this.setState({ personas: res.data });
+      },
+      error => {
+        alert(error, "Sin conexion a la base de datos");
+      }
+    );
   }
 
   render() {
