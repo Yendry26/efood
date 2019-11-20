@@ -19,7 +19,7 @@ import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import AdminUsuarios from "../Usuarios/AdminUsuarios";
 import Tabla from "../Usuarios/Tabla";
 import SignInSide from "../Login/SignInSide";
-import Prueba from "../Usuarios/Prueba";
+import AgregarUsuario from "../Usuarios/AgregarUsuario";
 import SignUp from "../Login/SignUp";
 
 const drawerWidth = 240;
@@ -49,8 +49,13 @@ export default function ClippedDrawer() {
   const classes = useStyles();
 
   const cambioCuerpo = cuerpo => {
-    if (cuerpo == "admin") {
-      return <Tabla />;
+    if (cuerpo === "admin") {
+      return (
+        <div>
+          <Tabla />
+          <AgregarUsuario />
+        </div>
+      );
     } else {
       return <SignInSide />;
     }

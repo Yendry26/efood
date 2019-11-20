@@ -37,9 +37,9 @@ export default class Tabla extends React.Component {
 
   //! GET User
   componentDidMount() {
-    axios.get(`https://localhost:44353/api/content/getusuario`).then(res => {
+    axios.get(`https://10.211.55.25:45455/api/content/GetUsuario`).then(res => {
       this.setState({ personas: res.data });
-      console.log(this.state.personas);
+      console.log(this.state.personas, "GET from  DB");
       const datos = JSON.stringify(this.state.personas);
       this.setState({ personas: datos });
     });
