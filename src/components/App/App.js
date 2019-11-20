@@ -9,8 +9,7 @@ import AdminUsuarios from "../Usuarios/AdminUsuarios";
 function App() {
   return (
     <div>
-      <SignInSide/>
-      
+      <NavBar />
     </div>
   );
 }
