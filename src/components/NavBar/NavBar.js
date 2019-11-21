@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -106,30 +107,32 @@ export default function ClippedDrawer() {
   }
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h5" noWrap>
-            E-Food
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.toolbar} />
-        {cambioDeNav("jose")}
-        <Divider />
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <React.Fragment>{cambioCuerpo("admin")}</React.Fragment>
-      </main>
-    </div>
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <Typography variant="h5" noWrap>
+              E-Food
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper
+          }}
+        >
+          <div className={classes.toolbar} />
+          {cambioDeNav("jose")}
+          <Divider />
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <React.Fragment>{cambioCuerpo("admin")}</React.Fragment>
+        </main>
+      </div>
+    </Router>
   );
 }

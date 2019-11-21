@@ -65,12 +65,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const validarCampos = () => {
-  if (true) {
-  } else {
-  }
-};
-
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -168,7 +162,7 @@ export default function AgregarUsuario() {
       ID_Rol: rol,
       Nombre: nombre,
       Contrasena: contrasena,
-      Correo: correo,
+      Correo: correo.toLocaleLowerCase(),
       Pregunta_Seguridad: preguntaSeguridad,
       Respuesta_Seguridad: respuestaSecreta,
       Estado: estado
