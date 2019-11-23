@@ -50,20 +50,17 @@ export default class Tabla extends React.Component {
       <MaterialTable
         options={{
           search: false,
-          sorting: false
+          sorting: false,
+          paging: false,
+          export: true,
+          padding: "dense"
         }}
-        title="Custom Edit Component Preview"
+        title="Lista de usuarios"
         columns={[
           { title: "Nombre", field: "Nombre" },
-          { title: "Correo", field: "Correo" },
+          { title: "Correo", field: "Correo", editable: "never" },
           { title: "Estado", field: "Estado" },
-          { title: "Birth Year", field: "birthYear", type: "datetime" },
-          { lookup: { 34: "İstanbul", 63: "Şanlıurfa" } },
-          {
-            title: "Birth Place",
-            field: "birthCity",
-            lookup: { 34: "İstanbul", 63: "Şanlıurfa" }
-          }
+          { title: "Rol", field: "ID_Rol" }
         ]}
         data={this.state.personas}
         editable={{

@@ -65,53 +65,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ID_Rol: "",
-      Nombre: "",
-      Contrasena: "",
-      Correo: "",
-      Pregunta_Seguridad: "",
-      Respuesta_Seguridad: "",
-      Estado: ""
-    };
-  }
-
-  handleChange = event => {
-    this.setState({
-      ID_Rol: event.target.value,
-      Nombre: event.target.value,
-      Contrasena: event.target.value,
-      Correo: event.target.value,
-      Pregunta_Seguridad: event.target.value,
-      Respuesta_Seguridad: event.target.value,
-      Estado: event.target.value
-    });
-  };
-
-  render() {
-    console.log(this.state.Nombre);
-
-    return (
-      <React.Fragment>
-        <form>
-          <label htmlFor="username">username</label>
-          <input
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-        </form>
-
-        <h3>Your username is: {this.state.username}</h3>
-      </React.Fragment>
-    );
-  }
-}
-
 export default function AgregarUsuario() {
   let datos = {};
   const classes = useStyles();

@@ -73,6 +73,7 @@ export default function SignInSide() {
 
   const enviarAlNav = condicion => {
     if (condicion === true) {
+      console.log("aqui");
       return <Redirect to="/nav" />;
     }
   };
