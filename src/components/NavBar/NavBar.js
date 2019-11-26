@@ -17,7 +17,18 @@ import RestaurantIcon from "@material-ui/icons/Restaurant";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 
-import AdminUsuarios from "../Usuarios/AdminUsuarios";
+import Bitacora from "../Administracion/Bitacora";
+import Consecutivos from "../Administracion/Consecutivos";
+import Consulta from "../Administracion/Consulta";
+import Cupones from "../Administracion/Cupones";
+import Errores from "../Administracion/Errores";
+import LineasComida from "../Administracion/LineasComida";
+import ListasTarjetas from "../Administracion/ListasTajetas";
+import Pedidos from "../Administracion/Pedidos";
+import ProcesadorPago from "../Administracion/ProcesadorPago";
+import Productos from "../Administracion/Productos";
+import TiposPrecio from "../Administracion/TiposPrecio";
+
 import Tabla from "../Usuarios/Tabla";
 import SignInSide from "../Login/SignInSide";
 import AgregarUsuario from "../Usuarios/AgregarUsuario";
@@ -51,26 +62,78 @@ export default function ClippedDrawer() {
 
   const cambioCuerpo = cuerpo => {
     if (cuerpo === "admin") {
-      return (
-        <div>
-          <Tabla />
-          <AgregarUsuario />
-        </div>
-      );
+      return <div>Consecutivos</div>;
     } else {
       return <SignInSide />;
     }
   };
 
-  function cambioDeNav(usuario) {
-    if (usuario === "jose") {
+  /*
+!! admin
+!! seguridad 
+!! mantenimiento 
+!! consulta
+*/
+  const cambioRol = rol => {
+    if (rol === "admin") {
+      return (
+        <div>
+          <Consecutivos />
+          <br></br>
+          <Cupones />
+          <br></br>
+          <LineasComida />
+          <br></br>
+          <ListasTarjetas />
+          <br></br>
+          <Pedidos />
+          <br></br>
+          <ProcesadorPago />
+          <br></br>
+          <Productos />
+          <br></br>
+          <TiposPrecio />
+          <br></br>
+          <Bitacora />
+          <br></br>
+          <Consulta />
+          <br></br>
+          <Errores />
+        </div>
+      );
+    } else if (rol === "seguridad") {
+      return (
+        <div>
+          <Tabla />
+        </div>
+      );
+    } else if (rol === "mantenimiento") {
+      return (
+        <div>
+          <LineasComida />
+          <Productos />
+          <Cupones />
+          <TiposPrecio />
+        </div>
+      );
+    } else if (rol === "consulta") {
+      return (
+        <div>
+          <Consulta />
+        </div>
+      );
+    }
+  };
+
+  function cambioDeNav(rol) {
+    if (rol === "admin") {
       return (
         <List>
-          <ListItem button key={"Tienda"}>
+          <ListItem button key={"Productos"}>
             <ListItemIcon>
               <StorefrontIcon />
             </ListItemIcon>
-            <ListItemText primary={"Tienda"} />
+            <ListItemText primary={"Productos"} />
           </ListItem>
           <ListItem button key={"Cupones"}>
             <ListItemIcon>
@@ -125,14 +188,21 @@ export default function ClippedDrawer() {
           }}
         >
           <div className={classes.toolbar} />
-          {cambioDeNav("jose")}
+          {cambioDeNav("admin")}
           <Divider />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <React.Fragment>{cambioCuerpo("admin")}</React.Fragment>
+          <React.Fragment>{cambioRol("seguridad")}</React.Fragment>
         </main>
       </div>
     </Router>
   );
 }
+
+/*
+!! admin
+!! seguridad 
+!! mantenimiento 
+!! consulta
+*/
