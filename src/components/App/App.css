@@ -20,3 +20,63 @@
 .App-link {
   color: #09d3ac;
 }
+
+
+body{
+  background: #0F2027;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+}
+
+ul, li {
+  list-style-type: none;
+  text-decoration: none;
+}
+
+Link{
+  color: '#FFF'
+}
+
+*{
+  text-decoration: none;
+}
+a {
+  color: #FFF;
+}
+a:hover {
+   color: #00F
+}
+
+.container {
+  padding-top: 30px;
+  padding-bottom: 30
+}
+
+button:focus {outline:0;}
+
+
+.swal-modal {
+  background-color: #29282ce1;
+  border: 2px solid white;
+  
+}
+.swal-button {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #4962B3;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+.swal-text {
+ 
+  text-align: center;
+  color: #ffffff;
+}
+
+.swal-title {
+  text-align: center;
+  color: #ffffff;
+}

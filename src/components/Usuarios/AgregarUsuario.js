@@ -121,7 +121,7 @@ export default function AgregarUsuario() {
       Estado: estado
     };
 
-    fetch(`https://10.211.55.25:45455/api/Content/PostUsuario`, {
+    fetch(`https://10.211.55.3:45455/api/Content/PostUsuario`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datos)

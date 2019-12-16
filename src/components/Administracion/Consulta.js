@@ -38,7 +38,7 @@ export default class Consulta extends React.Component {
   //! GET User
   componentDidMount() {
     axios
-      .get(`https://10.211.55.25:45455/api/content/GetConsulta`)
+      .get(`https://10.211.55.3:45455/api/content/GetConsulta`)
       .then(res => {
         this.setState({ personas: res.data });
         console.log(this.state.personas, "GET from  DB");

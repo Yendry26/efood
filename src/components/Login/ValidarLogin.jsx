@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -16,18 +16,9 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import SeguridadNav from "../NavBar/SegurdidadNav";
 
 import NavBar from "../NavBar/NavBar";
-
-class envioRol extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return <div></div>;
-  }
-}
 
 function Copyright() {
   return (
@@ -42,8 +33,12 @@ const useStyles = makeStyles(theme => ({
     height: "100vh"
   },
   image: {
-    backgroundImage: "url(https://source.unsplash.com/random?food)",
+    backgroundImage: "url(https://source.unsplash.com/random?brunch)",
     backgroundRepeat: "no-repeat",
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? theme.palette.grey[900]
+        : theme.palette.grey[50],
     backgroundSize: "cover",
     backgroundPosition: "center"
   },
@@ -55,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.dark
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -66,17 +61,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignInSide() {
-  const classes = useStyles();
-  const [contrasena, setContrasena] = React.useState("");
-  const [correo, setCorreo] = React.useState("");
+// function x (){
+//   location.replace("http://localhost:3000/Consecutivos");
 
-  const enviarAlNav = condicion => {
-    if (condicion === true) {
-      console.log("aqui");
-      return <Redirect to="/nav" />;
-    }
-  };
+// }
+
+export default function ValidarLogin({ landingRol }) {
+  const classes = useStyles();
+  const [contrasena, setContrasena] = useState("");
+  const [correo, setCorreo] = useState("");
+  //const [greeting, setGreeting] = useState("Hello Function Component!");
+  const [rol, setRol] = useState(0);
+  //const handleChange = event => setGreeting(event.target.value);
+
+  let buscarRolUsuario;
 
   const handleContrasena = event => {
     event.preventDefault();
@@ -91,10 +89,9 @@ export default function SignInSide() {
   //! Valida si usuario y Rol exisiten
   const validarUsuario = event => {
     let usuarioExiste = false;
-    let rol = 0;
     event.preventDefault();
 
-    fetch("https://10.211.55.25:45455/api/content/GetUsuario")
+    fetch("https://10.211.55.3:45455/api/content/GetUsuario")
       .then(res => res.json())
       .then(data => {
         //! Busca el usuario y la contrasena
@@ -104,16 +101,20 @@ export default function SignInSide() {
               usuario.Correo === correo && usuario.Contrasena === contrasena
           );
           try {
-            rol = buscar.ID_Rol;
+            buscarRolUsuario = buscar.ID_Rol;
+            setRol(buscarRolUsuario);
+            console.log(`El rol encontrado es ${buscarRolUsuario}`);
+            usuarioExiste = true;
+            if (usuarioExiste === true) {
+              console.log(rol, "aqui");
+            }
           } catch (error) {
-            alert("Usuario o contraseña incorrectos");
+            // alert("Usuario o contraseña incorrectos");
             setCorreo("");
             setContrasena("");
+            usuarioExiste = false;
           }
-          usuarioExiste = true;
-          enviarAlNav(true);
         }
-        console.log(rol);
       });
   };
 
@@ -142,6 +143,7 @@ export default function SignInSide() {
               autoFocus
               value={correo}
               onChange={handleCorreo}
+              color="primary"
             />
             <TextField
               variant="outlined"
@@ -165,11 +167,11 @@ export default function SignInSide() {
               className={classes.submit}
               onClick={validarUsuario}
             >
-              Sign In
+              Entrar
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link className={classes.style} href="#" variant="body2">
                   {"No tenés una cuenta? Registrate aquí"}
                 </Link>
               </Grid>

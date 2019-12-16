@@ -1,27 +1,41 @@
-import React from "react";
-import "./App";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, { useState } from "react";
+import "./App.css";
+import Headline from "./Headline";
+import { ThemeProvider } from "@material-ui/styles";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import "../Login/SignInSide";
-import SignInSide from "../Login/SignInSide";
-import SignUp from "../Login/SignUp";
-import NavBar from "../NavBar/NavBar";
-import AdminUsuarios from "../Usuarios/AdminUsuarios";
+import Cliente from "../Cliente/Cliente";
+
+import Login from "../Login/Login";
+
+import { createMuiTheme } from "@material-ui/core";
+const theme = createMuiTheme({
+  palette: {
+    type: "dark"
+  }
+});
 
 function App() {
+  const [rol, setRol] = useState(0);
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route path="/" exact component={SignInSide} />
-          <Route path="/login" exact component={SignInSide} />
-          <Route path="/registro" exact component={SignUp} />
-          <Route path="/admin" exact component={AdminUsuarios} />
-          <Route path="/nav" exact component={NavBar} />
-        </Switch>
-      </div>
-    </Router>
+    <div>
+      <ThemeProvider theme={theme}>
+      <Login onRolChange={setRol} landingRol = {5}/>
+            </ThemeProvider>
+    </div>
   );
 }
+
+// const [greeting, setGreeting] = useState("Hello Function Component!");
+// const handleChange = event => setGreeting(event.target.value);
+
+// return (
+//   <div>
+//     <Headline headline={"Hola"} onChangeHeadline={handleChange} />
+// 
+
+//   </div>
+// );
+//}
 
 export default App;

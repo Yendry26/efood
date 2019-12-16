@@ -38,7 +38,7 @@ export default class ListasTarjetas extends React.Component {
   //! GET User
   componentDidMount() {
     axios
-      .get(`https://10.211.55.25:45455/api/content/GetTipoTarjeta`)
+      .get(`https://10.211.55.3:45455/api/content/GetTipoTarjeta`)
       .then(res => {
         this.setState({ personas: res.data });
         console.log(this.state.personas, "GET from  DB");
