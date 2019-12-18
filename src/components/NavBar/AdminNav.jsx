@@ -94,7 +94,7 @@ export default function AdminNav() {
                 <ListItemIcon>
                   <StorefrontIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Cnsecutivos"} />
+                <ListItemText primary={"Consecutivos"} />
               </ListItem>
             </Link>
           </List>

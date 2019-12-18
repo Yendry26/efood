@@ -98,28 +98,7 @@ export default function Login({ landingRol, onRolChange }) {
       .then(data => {
         console.log(data)
         //! Busca el usuario y la contrasena
-        // while (usuarioExiste === false) {
-        //   const buscar = data.find(
-        //     usuario =>
-        //       usuario.Correo === correo && usuario.Contrasena === contrasena
-        //   );
-        //   try {
-        //     buscarRolUsuario = buscar.ID_Rol;
-        //     setRol(buscar.ID_Rol);
-        //     console.log(`El rol encontrado es ${buscarRolUsuario}`);
-        //     usuarioExiste = true;
-        //     if (usuarioExiste === true) {
-        //       console.log(rol, "aqui");
-        //       cambioCuerpo(rol);
-        //     }
-        //   } catch (error) {
-        //     // alert("Usuario o contraseña incorrectos");
-        //     setCorreo("");
-        //     setContrasena("");
-        //     usuarioExiste = false;
-        //   }
-        // }
-
+        
         if (!correo) {
           swal("Correo es requerido", "Complete todos los campos", "warning");
           verifica = false;

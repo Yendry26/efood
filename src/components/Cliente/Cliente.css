@@ -4,9 +4,9 @@ body {
     height: 100vh;
     font-family: "Exo", sans-serif;
     color: #fff;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background: linear-gradient(-45deg, #fb673a, #5f183346, #ec970f, #d5d223);
     background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    animation: gradientBG 20s ease infinite;
 }
 
 @keyframes gradientBG {
@@ -64,7 +64,7 @@ ul, li {
   a {
     color: #FFF;
   }
-  a:hover {
+  Link:hover {
      color: #00F
   }
   

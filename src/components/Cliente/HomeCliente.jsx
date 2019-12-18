@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -19,7 +20,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
 import { fade } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
@@ -35,10 +35,17 @@ import Brightness3Icon from "@material-ui/icons/Brightness3";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Tooltip from "@material-ui/core/Tooltip";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast";
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import "./Cliente.css";
 
 import Productos from "./Productos";
+import Buscar from "./Buscar";
+import Pagar from "./Pagar";
+import FormaPago from "./FormaPago";
+
 
 const drawerWidth = 240;
 
@@ -80,7 +87,8 @@ const useStyles = makeStyles(theme => ({
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(4, 0, 4),
-    borderRadius: "25px"
+    borderRadius: "25px",
+    boxShadow: "0px 0px 48px 16px rgba(0,0,0,0.35)"
   },
   heroButtons: {
     marginTop: theme.spacing(4)
@@ -104,7 +112,8 @@ const useStyles = makeStyles(theme => ({
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
-    borderRadius: "25px"
+    borderRadius: "25px",
+    boxShadow: "0px 0px 48px 16px rgba(0,0,0,0.35)"
   },
   grow: {
     flexGrow: 1
@@ -175,91 +184,22 @@ export default function HomeCliente() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = event => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
-  const dia = "Buenos dias  ";
-  const noche = "Buenas noches  ";
 
   const hola = () => {
+    const dia = "Buenos dias  ";
+    const noche = "Buenas noches  ";
+    const tarde = "Buenas tardes  ";
+    
     const hours = new Date().getHours();
-    const isDayTime = hours > 6 && hours < 17;
+    const isDayTime = hours > 5 && hours < 11;
+    const isNoon = hours > 11 && hours < 19;
+
     if (isDayTime) {
-      console.log("Es de dia", isDayTime);
       return (
         <div>
           <h2>
@@ -268,8 +208,16 @@ export default function HomeCliente() {
           </h2>
         </div>
       );
+    } else if (isNoon) {
+      return (
+        <div>
+          <h2>
+            {tarde}
+            <FreeBreakfastIcon />
+          </h2>
+        </div>
+      );
     } else {
-      console.log("Es de noche", hours);
       return (
         <div>
           <h2>
@@ -284,6 +232,8 @@ export default function HomeCliente() {
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Returnn
   return (
     <div className={classes.root}>
+            <Router>
+
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -298,22 +248,17 @@ export default function HomeCliente() {
           </Typography>
           <img height="50" width="50" src="./favicon.ico" alt="" />
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+          <div >
+          <Tooltip title="Carrito">
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
+                <ShoppingCartIcon />
               </Badge>
             </IconButton>
+            </Tooltip>
             <Tooltip title="Salir">
               <IconButton
                 edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
                 color="inherit"
@@ -322,38 +267,59 @@ export default function HomeCliente() {
               </IconButton>
             </Tooltip>
           </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
+  
         </Toolbar>
       </AppBar>
       <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.toolbar} />
-        <List>
-          <Link className={classes.style} to="/Productos">
-            <ListItem className={classes.style} button key={"Productos"}>
-              <ListItemIcon>
-                <MailIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Productos"} />
-            </ListItem>
-          </Link>
-        </List>
-      </Drawer>
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper
+          }}
+        >
+          <div className={classes.toolbar} />
+          <List>
+             <Link  className={classes.style} to="/Productos">
+              <ListItem className={classes.style} button key={"Productos"}>
+                <ListItemIcon>
+                  <FastfoodIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Productos"} />
+              </ListItem>
+            </Link>
+          </List>
+          <List>
+             <Link  className={classes.style} to="/Buscar">
+              <ListItem className={classes.style} button key={"Buscar"}>
+                <ListItemIcon>
+                  < SearchIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Buscar"} />
+              </ListItem>
+            </Link>
+          </List>
+          <List>
+             <Link  className={classes.style} to="/Pagar">
+              <ListItem className={classes.style} button key={"Pagar"}>
+                <ListItemIcon>
+                  <MonetizationOnIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Pagar"} />
+              </ListItem>
+            </Link>
+          </List>
+          <List>
+             <Link  className={classes.style} to="/FormasPago">
+              <ListItem className={classes.style} button key={"Formas de Pago"}>
+                <ListItemIcon>
+                  <FreeBreakfastIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Formas de Pago"} />
+              </ListItem>
+            </Link>
+          </List>
+          <Divider />
+        </Drawer>
       <main className={classes.content}>
         <div>
           <div className={classes.toolbar} />
@@ -384,7 +350,22 @@ export default function HomeCliente() {
               </Typography>
             </Container>
           </div>
-          <Productos />
+          <React.Fragment>
+            <Switch>
+              <Route exact path="/Productos">
+                <Productos />
+              </Route>
+              <Route exact path="/Buscar">
+                <Buscar />
+              </Route>
+              <Route exact path="/Pagar">
+                <Pagar />
+              </Route>
+              <Route exact path="/FormasPago">
+                <FormaPago />
+              </Route>
+            </Switch>
+          </React.Fragment>
           {/* Footer */}
           <footer className={classes.footer}>
             <Typography variant="h6" align="center" gutterBottom>
@@ -412,6 +393,7 @@ export default function HomeCliente() {
           </footer>
         </div>
       </main>
+      </Router>
     </div>
   );
 }

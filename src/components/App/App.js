@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import "./App.css";
-import Headline from "./Headline";
 import { ThemeProvider } from "@material-ui/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Cliente from "../Cliente/Cliente";
+import Cliente from "../Cliente/Cliente-old";
 
 import Login from "../Login/Login";
 
@@ -25,17 +24,4 @@ function App() {
     </div>
   );
 }
-
-// const [greeting, setGreeting] = useState("Hello Function Component!");
-// const handleChange = event => setGreeting(event.target.value);
-
-// return (
-//   <div>
-//     <Headline headline={"Hola"} onChangeHeadline={handleChange} />
-// 
-
-//   </div>
-// );
-//}
-
 export default App;
