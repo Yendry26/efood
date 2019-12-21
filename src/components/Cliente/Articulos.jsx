@@ -1,4 +1,4 @@
-//! Cards de los productos a mostrar
+//! Cards de los productos a mostrar en el carrito
 import React, { useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -23,12 +23,12 @@ import HomeCliente from "./HomeCliente";
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 345,
+    maxHeight: 100,
     borderRadius: "20px",
     boxShadow: "0px 0px 48px 16px rgba(0,0,0,0.35)"
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
+    height: 0
   },
   expand: {
     transform: "rotate(0deg)",
@@ -41,89 +41,70 @@ const useStyles = makeStyles(theme => ({
     transform: "rotate(180deg)"
   },
   avatar: {
-    backgroundColor: red[500]
+    backgroundColor: "#375CA3"
   }
 }));
-export default function Cards({
-  titulo,
+export default function Articulos({
+  nombre,
   descripcion,
-  foto,
-  ingredientes,
   precio,
   key,
   avatar,
-  carrito,
-  ID_Producto
-  
+  ID_Producto,
+  foto, cantidad
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [articulo, setArticulo] = useState(1);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const getLocalStorage = () => {
+    window.localStorage.getItem(3);
   };
 
-  const ver = () => {
-    setArticulo(articulo + 1);
-    console.log(articulo);
-    window.localStorage.setItem(ID_Producto, JSON.stringify({ID_Producto, titulo, descripcion, precio, articulo}));
-  };
 
   return (
     <div className=" container-fluid w3-border-red w3-animate-zoom col-xs-1">
       <Card className={classes.card}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {avatar}
-            </Avatar>
+            <div>
+              <Tooltip title="Eliminar">
+                <IconButton>
+                  <Avatar
+                    aria-label="recipe"
+                    className={classes.avatar}
+                    onClick={() => console.log("vavavas")}
+                  >
+                    {"❌"}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+        
+              <Tooltip title="Editar">
+                <IconButton>
+                  <Avatar
+                    aria-label="recipe"
+                    className={classes.avatar}
+                    onClick={() => console.log("vavavas")}
+                  >
+                    {"✏️"}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+            </div>
           }
           key={key}
-          title={<h5> {titulo} </h5>}
+          title={
+            <div>
+              <span> {nombre} | </span>
+              <span> {descripcion} | </span>
+              <span> {cantidad} </span>
+            </div>
+          }
         />
         <CardMedia className={classes.media} image={foto} title="Paella dish" />
-        <CardContent>
-          <div className=" text-center col-xs-12">
-            <Typography variant="h6" color="textSecondary" component="p">
-              {descripcion}
-              <strong>
-
-              <h3>¢ {precio} </h3>
-              </strong>
-            </Typography>
-          </div>
-        </CardContent>
-        <CardActions disableSpacing>
-          <Tooltip title="Agregar al carrito">
-            <IconButton
-              onClick={() => {
-                ver();
-              }}
-            >
-              <AddShoppingCartRoundedIcon fontSize="large" />
-            </IconButton>
-          </Tooltip>
-              
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography paragraph>Ingredientes:</Typography>
-            <Typography paragraph>{ingredientes}</Typography>
-          </CardContent>
-        </Collapse>
       </Card>
-      <br/>
+      <br />
     </div>
   );
 }

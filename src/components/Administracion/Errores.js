@@ -37,7 +37,7 @@ export default class Errores extends React.Component {
 
   //! GET User
   componentDidMount() {
-    axios.get(`https://10.211.55.3:45455/api/content/GetCupon`).then(res => {
+    axios.get(`https://10.211.55.3:45455/api/content/GetError`).then(res => {
       this.setState({ personas: res.data });
       console.log(this.state.personas, "GET from  DB");
       const datos = JSON.stringify(this.state.personas);
@@ -58,8 +58,8 @@ export default class Errores extends React.Component {
         title="Log de Errores"
         columns={[
           { title: "ID_Error", field: "ID_Error", editable: "never" },
-          { title: "Fecha_Hora", field: "Fecha_Hora" },
-          { title: "Mensaje", field: "Mensaje" }
+          { title: "Fecha", field: "Fecha_Hora" },
+          { title: "Evento", field: "Mensaje" }
         ]}
         data={this.state.personas}
         editable={{

@@ -12,11 +12,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
-export default function Pagar() {
+export default function Pedidos() {
   return <div>
       
       <button>
-          Pagador
+          Pedidos
       </button>
       </div>
 }

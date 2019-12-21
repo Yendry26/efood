@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Login({ landingRol, onRolChange }) {
+export default function Login({ landingRol, onRolChange, cliente, onClienteChange }) {
   const classes = useStyles();
   const [contrasena, setContrasena] = useState("");
   const [correo, setCorreo] = useState("");
@@ -70,6 +70,7 @@ export default function Login({ landingRol, onRolChange }) {
   //const [greeting, setGreeting] = useState("Hello Function Component!");
 
   let buscarRolUsuario;
+  let buscarCliente;
   //const [greeting, setGreeting] = useState("Hello Function Component!");
   const [rol, setRol] = useState(0);
 
@@ -98,7 +99,7 @@ export default function Login({ landingRol, onRolChange }) {
       .then(data => {
         console.log(data)
         //! Busca el usuario y la contrasena
-        
+
         if (!correo) {
           swal("Correo es requerido", "Complete todos los campos", "warning");
           verifica = false;
@@ -124,12 +125,16 @@ export default function Login({ landingRol, onRolChange }) {
                 usuario.Correo === correo && usuario.Contrasena === contrasena
             );
             buscarRolUsuario = buscar.ID_Rol;
+            buscarCliente = buscar.Nombre;
             setRol(buscar.ID_Rol);
           } catch (error) {}
 
           if (verifica === true && buscarRolUsuario !== undefined) {
             console.log(`El rol encontrado es ${buscarRolUsuario}`);
+            console.log(`El rol encontrado es ${buscarCliente}`);
+
             onRolChange(buscarRolUsuario);
+            onClienteChange (buscarCliente);
           } else {
             swal(
               "Usuario o contraseña incorrecto",
@@ -147,17 +152,16 @@ export default function Login({ landingRol, onRolChange }) {
   };
 
   const cambioCuerpo = landingRol => {
-    console.log(landingRol);
     if (
       landingRol === 1 ||
       landingRol === 2 ||
       landingRol === 3 ||
       landingRol === 4 ||
-      landingRol === 5
+      landingRol === 1002
     ) {
       return (
         <div>
-          <NavBar usuarioRol={landingRol} />
+          <NavBar usuarioRol={landingRol} cliente = {cliente} />
         </div>
       );
     } else if (landingRol === 0) {
@@ -219,16 +223,7 @@ export default function Login({ landingRol, onRolChange }) {
                 >
                   Entrar
                 </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link className={classes.style} href="#" variant="body2">
-                      {"No tenés una cuenta? Registrate aquí"}
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Box mt={5}>
-                  <Copyright />
-                </Box>
+       
               </form>
             </div>
           </Grid>

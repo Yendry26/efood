@@ -15,6 +15,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import PaymentIcon from '@material-ui/icons/Payment';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import ErrorIcon from '@material-ui/icons/Error';
+import PageviewIcon from '@material-ui/icons/Pageview';
 
 import Bitacora from "../Administracion/Bitacora";
 import Consecutivos from "../Administracion/Consecutivos";
@@ -27,6 +34,10 @@ import Pedidos from "../Administracion/Pedidos";
 import ProcesadorPago from "../Administracion/ProcesadorPago";
 import Productos from "../Administracion/Productos";
 import TiposPrecio from "../Administracion/TiposPrecio";
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 
 const drawerWidth = 240;
 
@@ -82,7 +93,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Productos">
               <ListItem className={classes.style} button key={"Productos"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <LocalLibraryIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Productos"} />
               </ListItem>
@@ -92,7 +103,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Consecutivos">
               <ListItem className={classes.style} button key={"Consecutivos"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <ConfirmationNumberIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Consecutivos"} />
               </ListItem>
@@ -102,7 +113,8 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Cupones">
               <ListItem className={classes.style} button key={"Cupones"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+
+<LoyaltyIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Cupones"} />
               </ListItem>
@@ -112,7 +124,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/LineasComida">
               <ListItem className={classes.style} button key={"LineasComida"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <FastfoodIcon />
                 </ListItemIcon>
                 <ListItemText primary={"LineasComida"} />
               </ListItem>
@@ -122,7 +134,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Tajetas">
               <ListItem className={classes.style} button key={"Tarjetas"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <PaymentIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Tarjetas"} />
               </ListItem>
@@ -132,7 +144,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Pedidos">
               <ListItem className={classes.style} button key={"Pedidos"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <ListAltIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Pedidos"} />
               </ListItem>
@@ -142,7 +154,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/ProcesadorPago">
               <ListItem className={classes.style} button key={"Procesador de Pago"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <MonetizationOnIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Procesador de Pago"} />
               </ListItem>
@@ -152,7 +164,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/TiposPrecio">
               <ListItem className={classes.style} button key={"Tipos de Precio"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <VerticalSplitIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Tipos de Precio"} />
               </ListItem>
@@ -162,7 +174,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Bitacora">
               <ListItem className={classes.style} button key={"Bitacora"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <LibraryBooksIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Bitacora"} />
               </ListItem>
@@ -172,7 +184,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Consulta">
               <ListItem className={classes.style} button key={"Consulta"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <PageviewIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Consulta"} />
               </ListItem>
@@ -182,7 +194,7 @@ export default function AdminNav() {
              <Link  className={classes.style} to="/Errores">
               <ListItem className={classes.style} button key={"Errores"}>
                 <ListItemIcon>
-                  <StorefrontIcon />
+                  <ErrorIcon/>
                 </ListItemIcon>
                 <ListItemText primary={"Errores"} />
               </ListItem>
@@ -219,7 +231,8 @@ export default function AdminNav() {
               <Route exact path="/Productos">
                 <Productos />
               </Route>
-              <Route exact path="/TiposPrecio">
+
+<Route exact path="/TiposPrecio">
                 <TiposPrecio />
               </Route>
               <Route exact path="/Bitacora">

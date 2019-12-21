@@ -1,4 +1,4 @@
-//! Busca la data del servidor para mostrar como un card
+//! Busca la data del LOCAL Storage para mostrar como un card
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import Paper from '@material-ui/core/Paper';
 import clsx from "clsx";
 import CardHeader from "@material-ui/core/CardHeader";
 import Collapse from "@material-ui/core/Collapse";
@@ -20,8 +21,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import swal from "sweetalert";
-
-import Cards from "./Cards";
+import Articulos from "./Articulos";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,17 +36,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Productos() {
+export default function ArmarCarrito() {
   const classes = useStyles();
   const [productos, setProductos] = useState([]);
+  const [nombre, setNombre] = useState("");
+  const [descripcion] = useState("");
+  const [precio, setPrecio] = useState("");
+  let arreglo = [];
 
   useEffect(() => {
     getProductos();
   }, []);
 
+
   const getProductos = async () => {
     const response = await fetch(
-      `https://10.211.55.3:45455/api/content/GetProducto`
+      `https://10.211.55.3:45455/api/content/GetCarrito`
     )
       .then(res => res.json())
       .then(data => {
@@ -63,6 +68,42 @@ export default function Productos() {
       );
   };
 
+  console.log(productos, 'prdsadsd')
+
+  const isFull = () =>{
+    if (!productos) {
+        return (
+            <Grid container className={classes.root} spacing={2}>
+            {productos.map(producto => (
+              <Grid item xs={6} sm={6} md={4}>
+                <Articulos
+                  ID_Producto={producto.ID_Producto}
+                  nombre={producto.Nombre}
+                  descripcion={producto.Descripcion}
+                  precio={producto.Precio}
+                  cantidad={producto.Cantidad}
+                  foto={"https://source.unsplash.com/random?fastfood"}
+                  key={producto.ID_Producto}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        )
+    } else {
+        return (
+            <Paper className={classes.root}>
+      <Typography variant="h5" component="h3">
+        This is a sheet of paper.
+      </Typography>
+      <Typography component="p">
+        Paper can be used to build surface or other elements for your application.
+      </Typography>
+    </Paper>
+  );
+        
+    }
+}
+
   return (
     <Container maxWidth="md">
       <br />
@@ -73,23 +114,6 @@ export default function Productos() {
       <br />
       <br />
       {/* End hero unit */}
-      <Grid container className={classes.root} spacing={2}>
-        {productos.map(producto => (
-          <Grid item xs={6} sm={6} md={4}>
-            <Cards
-              ID_Producto={producto.ID_Producto}
-              carrito={producto.Nombre}
-              avatar={producto.Nombre[0]}
-              titulo={producto.Nombre}
-              descripcion={producto.Descripcion}
-              foto={"https://source.unsplash.com/random?fastfood"}
-              ingredientes={producto.Ingredientes}
-              precio={producto.Precio}
-              key={producto.ID_Producto}
-            />
-          </Grid>
-        ))}
-      </Grid>
       <br />
       <br />
       <br />

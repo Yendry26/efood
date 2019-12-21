@@ -58,6 +58,7 @@ function sleep(delay = 0) {
 }
 
 export default function Buscar() {
+    const [item, setItem] = useState('');
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
@@ -68,6 +69,7 @@ export default function Buscar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
 
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
@@ -85,7 +87,7 @@ export default function Buscar() {
 
     (async () => {
       const response = await fetch(
-        "https://10.211.55.3:45455/api/content/GetLineaComida"
+        `https://10.211.55.3:45455/api/Content/BuscarProducto/${item}`
       );
       await sleep(1e3); // For demo purposes.
       const countries = await response.json();

@@ -8,10 +8,11 @@ import ConsultaNav from "../NavBar/ConsultaNav";
 import Content from "../Usuarios/Content";
 import HomeCliente from "../Cliente/HomeCliente";
 
-export default function NavBar({ usuarioRol }) {
+export default function NavBar({ usuarioRol, cliente }) {
   // const handleChange = event => setGreeting(event.target.value);
   // const [usuarioRol, setUsuarioRol] = useState("Hello Function Component!");
-  console.log("Entrando al NAV rol= ", usuarioRol);
+
+
 
   const cambioRol = usuarioRol => {
     if (usuarioRol === 1) {
@@ -38,10 +39,11 @@ export default function NavBar({ usuarioRol }) {
           <ConsultaNav />
         </div>
       );
-    } else if (usuarioRol === 5) {
+    } else if (usuarioRol === 1002) {
       return (
         <div>
-          <HomeCliente />
+          
+          <HomeCliente cliente={cliente} />
         </div>
       );
     }

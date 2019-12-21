@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
@@ -37,15 +37,17 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast";
-import FastfoodIcon from '@material-ui/icons/Fastfood';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import FastfoodIcon from "@material-ui/icons/Fastfood";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import OutdoorGrillIcon from '@material-ui/icons/OutdoorGrill';
 import "./Cliente.css";
 
 import Productos from "./Productos";
-import Buscar from "./Buscar";
+import Search from "./Search";
 import Pagar from "./Pagar";
 import FormaPago from "./FormaPago";
-
+import Carrito from "./Carrito";
+import Pedidos from './Pedidos'
 
 const drawerWidth = 240;
 
@@ -53,7 +55,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="http://www.ulacit.ac.cr/">
+      <Link color="inherit" to="http://www.ulacit.ac.cr/">
         Ulacit
       </Link>{" "}
       {new Date().getFullYear()}
@@ -111,7 +113,7 @@ const useStyles = makeStyles(theme => ({
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
+    padding: theme.spacing(1),
     borderRadius: "25px",
     boxShadow: "0px 0px 48px 16px rgba(0,0,0,0.35)"
   },
@@ -180,31 +182,36 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function HomeCliente() {
+export default function HomeCliente({ cliente, items }) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
+  console.log(items);
+
+  const handleExit = event => {
+    event.preventDefault();
+    console.log("saliendo");
+
+    window.location.replace("http://localhost:3000/login");
   };
 
-
   const hola = () => {
-    const dia = "Buenos dias  ";
-    const noche = "Buenas noches  ";
-    const tarde = "Buenas tardes  ";
-    
-    const hours = new Date().getHours();
-    const isDayTime = hours > 5 && hours < 11;
-    const isNoon = hours > 11 && hours < 19;
+    const dia = "Buenos dias";
+    const noche = "Buenas noches";
+    const tarde = "Buenas tardes";
 
+    const hours = new Date().getHours();
+    const isDayTime = hours > 5 && hours <= 11;
+    const isNoon = hours > 11 && hours < 17;
+    const isNigth = hours >17  && hours < 4;
+
+    console.log(hours);
+    
     if (isDayTime) {
       return (
         <div>
           <h2>
-            {dia}
-            <WbSunnyIcon />
+            {dia + ", " + cliente + "  "}
+            <WbSunnyIcon fontSize="large" />
           </h2>
         </div>
       );
@@ -212,17 +219,17 @@ export default function HomeCliente() {
       return (
         <div>
           <h2>
-            {tarde}
-            <FreeBreakfastIcon />
+            {tarde + ", " + cliente + "  "}
+            <FreeBreakfastIcon fontSize="large" />
           </h2>
         </div>
       );
-    } else {
+    } else if (isNigth) {
       return (
         <div>
           <h2>
-            {noche}
-            <Brightness3Icon />
+            {noche + ", " + cliente + "  "}
+            <Brightness3Icon fontSize="large" />
           </h2>
         </div>
       );
@@ -232,45 +239,45 @@ export default function HomeCliente() {
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Returnn
   return (
     <div className={classes.root}>
-            <Router>
-
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          ></IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            {hola()}
-          </Typography>
-          <img height="50" width="50" src="./favicon.ico" alt="" />
-          <div className={classes.grow} />
-          <div >
-          <Tooltip title="Carrito">
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-            </Tooltip>
-            <Tooltip title="Salir">
-              <IconButton
-                edge="end"
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <ExitToAppIcon />
-              </IconButton>
-            </Tooltip>
-          </div>
-  
-        </Toolbar>
-      </AppBar>
-      <Drawer
+      <Router>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open drawer"
+            ></IconButton>
+            <Typography className={classes.title} variant="h6" noWrap>
+              {hola()}
+            </Typography>
+            <img height="50" width="50" src="./favicon.ico" alt="" />
+            <div className={classes.grow} />
+            <div>
+              <Tooltip title="Carrito">
+                <IconButton edge="end" aria-haspopup="true" color="inherit">
+                  <Link to="/Carrito">
+                    <Badge badgeContent={items} color="secondary">
+                      <ShoppingCartIcon fontSize="large" />
+                    </Badge>
+                  </Link>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Salir">
+                <IconButton
+                  edge="end"
+                  aria-haspopup="true"
+                  onClick={handleExit}
+                  color="inherit"
+                >
+                  <ExitToAppIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            </div>
+          </Toolbar>
+        </AppBar>
+        <Drawer
           className={classes.drawer}
           variant="permanent"
           classes={{
@@ -279,7 +286,7 @@ export default function HomeCliente() {
         >
           <div className={classes.toolbar} />
           <List>
-             <Link  className={classes.style} to="/Productos">
+            <Link className={classes.style} to="/Productos">
               <ListItem className={classes.style} button key={"Productos"}>
                 <ListItemIcon>
                   <FastfoodIcon />
@@ -289,17 +296,17 @@ export default function HomeCliente() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Buscar">
+            <Link className={classes.style} to="/Buscar">
               <ListItem className={classes.style} button key={"Buscar"}>
                 <ListItemIcon>
-                  < SearchIcon />
+                  <SearchIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Buscar"} />
               </ListItem>
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Pagar">
+            <Link className={classes.style} to="/Pagar">
               <ListItem className={classes.style} button key={"Pagar"}>
                 <ListItemIcon>
                   <MonetizationOnIcon />
@@ -309,7 +316,17 @@ export default function HomeCliente() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/FormasPago">
+            <Link className={classes.style} to="/Pedidos">
+              <ListItem className={classes.style} button key={"Pedidos"}>
+                <ListItemIcon>
+                  <OutdoorGrillIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Pedidos"} />
+              </ListItem>
+            </Link>
+          </List>
+          <List>
+            <Link className={classes.style} to="/FormasPago">
               <ListItem className={classes.style} button key={"Formas de Pago"}>
                 <ListItemIcon>
                   <FreeBreakfastIcon />
@@ -320,79 +337,85 @@ export default function HomeCliente() {
           </List>
           <Divider />
         </Drawer>
-      <main className={classes.content}>
-        <div>
-          <div className={classes.toolbar} />
-          <div className={classes.heroContent}>
-            <Container maxWidth="sm">
-              <Typography
-                component="h1"
-                variant="h2"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                E-Food Happy Shopping!
+        <main className={classes.content}>
+          <div>
+            <div className={classes.toolbar} />
+            <div className={classes.heroContent}>
+              <Container maxWidth="sm">
+                <Typography
+                  component="h1"
+                  variant="h2"
+                  align="center"
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  E-Food Happy Shopping!
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                >
+                  <img
+                    align="center"
+                    height="100"
+                    width="200"
+                    src="https://thumbs.gfycat.com/PlaintiveBrightAfghanhound-size_restricted.gif"
+                    alt=""
+                  />
+                </Typography>
+              </Container>
+            </div>
+            <React.Fragment>
+              <Switch>
+                <Route exact path="/Productos">
+                  <Productos />
+                </Route>
+                <Route exact path="/Carrito">
+                  <Carrito />
+                </Route>
+                <Route exact path="/Buscar">
+                  <Search />
+                </Route>
+                <Route exact path="/Pagar">
+                  <Pagar />
+                </Route>
+                <Route exact path="/Pedidos">
+                  <Pedidos />
+                </Route>
+                <Route exact path="/FormasPago">
+                  <FormaPago />
+                </Route>
+              </Switch>
+            </React.Fragment>
+            {/* Footer */}
+            <footer className={classes.footer}>
+              <Typography variant="h6" align="center" gutterBottom>
+                ULACIT
               </Typography>
               <Typography
-                variant="h5"
+                variant="subtitle1"
                 align="center"
                 color="textSecondary"
-                paragraph
+                component="p"
               >
+                Desarrollo de aplicaciones de software
+              </Typography>
+              <br />
+              <div align="center">
                 <img
-                  align="center"
-                  height="100"
-                  width="200"
-                  src="https://thumbs.gfycat.com/PlaintiveBrightAfghanhound-size_restricted.gif"
+                  height="150"
+                  width="400"
+                  src="http://globaledu.cr/wp-content/uploads/2015/07/ulacit.png"
                   alt=""
                 />
-              </Typography>
-            </Container>
+              </div>
+              <br />
+              <Copyright />
+            </footer>
           </div>
-          <React.Fragment>
-            <Switch>
-              <Route exact path="/Productos">
-                <Productos />
-              </Route>
-              <Route exact path="/Buscar">
-                <Buscar />
-              </Route>
-              <Route exact path="/Pagar">
-                <Pagar />
-              </Route>
-              <Route exact path="/FormasPago">
-                <FormaPago />
-              </Route>
-            </Switch>
-          </React.Fragment>
-          {/* Footer */}
-          <footer className={classes.footer}>
-            <Typography variant="h6" align="center" gutterBottom>
-              ULACIT
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              align="center"
-              color="textSecondary"
-              component="p"
-            >
-              Desarrollo de aplicaciones de software
-            </Typography>
-            <br />
-            <div align="center">
-              <img
-                height="150"
-                width="400"
-                src="http://globaledu.cr/wp-content/uploads/2015/07/ulacit.png"
-                alt=""
-              />
-            </div>
-            <br />
-            <Copyright />
-          </footer>
-        </div>
-      </main>
+        </main>
       </Router>
     </div>
   );

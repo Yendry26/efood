@@ -14,7 +14,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 
-
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
@@ -31,8 +30,7 @@ import ProcesadorPago from "../Administracion/ProcesadorPago";
 import Productos from "../Administracion/Productos";
 import TiposPrecio from "../Administracion/TiposPrecio";
 
-import Usuarios from "../Usuarios/Usuarios";
-
+import AgregarUsuario from "../Usuarios/AgregarUsuario";
 
 const drawerWidth = 240;
 
@@ -43,10 +41,9 @@ const useStyles = makeStyles(theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1
   },
-  style: { 
-    color : "#FFF",
-    textDecoration : "none"
-
+  style: {
+    color: "#FFF",
+    textDecoration: "none"
   },
   drawer: {
     width: drawerWidth,
@@ -66,8 +63,8 @@ export default function SeguridadNav() {
   const classes = useStyles();
 
   return (
-      <div className={classes.root}>
-        <Router>
+    <div className={classes.root}>
+      <Router>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
@@ -85,10 +82,10 @@ export default function SeguridadNav() {
         >
           <div className={classes.toolbar} />
           <List>
-             <Link  className={classes.style} to="/seguridad">
-            <ListItem className={classes.style} button key={"Usuarios"}>
+            <Link className={classes.style} to="/seguridad">
+              <ListItem className={classes.style} button key={"Usuarios"}>
                 <ListItemIcon>
-                <AccessibilityNewIcon />
+                  <AccessibilityNewIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Usuarios"} />
               </ListItem>
@@ -102,7 +99,7 @@ export default function SeguridadNav() {
             <Switch>
               <Route path="/seguridad">
                 <div>
-                <Usuarios />
+                  <AgregarUsuario />
                 </div>
               </Route>
             </Switch>

@@ -4,7 +4,7 @@ body {
     height: 100vh;
     font-family: "Exo", sans-serif;
     color: #fff;
-    background: linear-gradient(-45deg, #fb673a, #5f183346, #ec970f, #d5d223);
+    background: linear-gradient(-45deg, #fb673a, #e6442346, #ec970f, #d5d223);
     background-size: 400% 400%;
     animation: gradientBG 20s ease infinite;
 }
@@ -99,4 +99,23 @@ ul, li {
   .swal-title {
     text-align: center;
     color: #ffffff;
+  }
+
+  .searchBar{
+ min-height: 10vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+  }
+
+
+  .searchForm{
+    width: 50%;
+    border: none;
+    padding: 10px;
+  }
+
+  .searchButton{
+    border: none;
+    padding: 10px 20px;
   }

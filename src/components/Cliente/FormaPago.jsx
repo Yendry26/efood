@@ -9,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import Pagar from "./Pagar";
-import Noti from "./Noti";
 
 
 const useStyles = makeStyles(theme => ({
@@ -69,6 +68,13 @@ export default function FormaPago() {
 
   return (
     <div className={classes.root}>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>
@@ -101,12 +107,18 @@ export default function FormaPago() {
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>All steps completed - you&apos;re finished</Typography>
-          <Noti/>
           <Button onClick={handleReset} className={classes.button}>
             Reset
           </Button>
         </Paper>
       )}
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
     </div>
   );
 }

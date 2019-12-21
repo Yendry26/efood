@@ -24,27 +24,60 @@ const theme = createMuiTheme({
 
 export default class Productos extends React.Component {
   state = {
-    personas: [],
+    data: [],
     columns: [],
     Nombre: "", //!POST USER
     ID_Rol: "" //!POST USER
   };
 
-  //!POST User
+  //!POST Producto
   handleChange = event => {
     this.setState({ name: event.target.value });
   };
 
-  //! GET User
+  //! GET Producto
   componentDidMount() {
     axios
-      .get(`https://10.211.55.3:45455/api/content/GetProducto`)
+      .get(`https://localhost:44353//api/content/GetProducto`)
       .then(res => {
-        this.setState({ personas: res.data });
-        console.log(this.state.personas, "GET from  DB");
-        const datos = JSON.stringify(this.state.personas);
-        this.setState({ personas: datos });
+        this.setState({ data: res.data });
+        console.log(this.state.data, "GET from  DB");
       });
+  }
+
+  deleteProduct = async (producto) => {
+    try {
+      // Delete from server
+      const url = `https://localhost:44353/api/content/DeleteProducto/${producto.ID_Producto}`
+      await axios.delete(url)
+      
+      // Delete from UI
+      let data = this.state.data;
+      const index = data.indexOf(producto);
+      data.splice(index, 1);
+      this.setState({ data });
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  updateProduct = async (newProduct, oldProduct) => {
+    try {
+      // Delete from server
+      const url = `https://localhost:44353/api/content/PutProducto/${oldProduct.ID_Producto}`
+      await axios.put(url, newProduct)
+      
+      // Update from UI
+      const data = this.state.data;
+      console.log(data)
+      const index = data.indexOf(oldProduct);
+      data[index] = newProduct;
+      this.setState({ data });
+
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   render() {
@@ -65,32 +98,14 @@ export default class Productos extends React.Component {
           { title: "Descripcion", field: "Descripcion" },
           { title: "Foto", field: "Foto" }
         ]}
-        data={this.state.personas}
+        data={this.state.data}
         editable={{
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data[index] = newData;
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  let data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data.splice(index, 1);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            })
+          onRowUpdate: (newProduct, oldProduct) => (
+            this.updateProduct(newProduct, oldProduct)
+          ),
+          onRowDelete: producto => (
+            this.deleteProduct(producto)
+          )
         }}
       />
     );

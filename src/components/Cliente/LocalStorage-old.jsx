@@ -1,4 +1,4 @@
-//! Busca la data del servidor para mostrar como un card
+//! Busca la data del LOCAL Storage para mostrar como un card
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -20,8 +20,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import swal from "sweetalert";
-
-import Cards from "./Cards";
+import Articulos from "./Articulos";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,28 +38,22 @@ const useStyles = makeStyles(theme => ({
 export default function Productos() {
   const classes = useStyles();
   const [productos, setProductos] = useState([]);
+  const [nombre, setNombre] = useState("");
+  const [descripcion] = useState("");
+  const [precio, setPrecio] = useState("");
+  let arreglo = [];
 
   useEffect(() => {
     getProductos();
   }, []);
 
-  const getProductos = async () => {
-    const response = await fetch(
-      `https://10.211.55.3:45455/api/content/GetProducto`
-    )
-      .then(res => res.json())
-      .then(data => {
-        //! Busca el usuario y la contrasena
-        console.log(data);
-        setProductos(data);
-      })
-      .catch(() =>
-        swal(
-          "No se pudo conectar al servidor",
-          "API no está corriendo",
-          "error"
-        )
-      );
+  const getProductos = () => {
+
+    let keys = Object.keys(localStorage);
+    for (let key of keys) {
+      arreglo.push(JSON.parse(localStorage.getItem(key)));
+    }
+    console.log(arreglo);
   };
 
   return (
@@ -74,17 +67,14 @@ export default function Productos() {
       <br />
       {/* End hero unit */}
       <Grid container className={classes.root} spacing={2}>
-        {productos.map(producto => (
+        {arreglo.map(producto => (
           <Grid item xs={6} sm={6} md={4}>
-            <Cards
+            <Articulos
               ID_Producto={producto.ID_Producto}
-              carrito={producto.Nombre}
-              avatar={producto.Nombre[0]}
-              titulo={producto.Nombre}
-              descripcion={producto.Descripcion}
+              titulo={producto.titulo}
+              descripcion={producto.descripcion}
               foto={"https://source.unsplash.com/random?fastfood"}
-              ingredientes={producto.Ingredientes}
-              precio={producto.Precio}
+              precio={producto.precio}
               key={producto.ID_Producto}
             />
           </Grid>

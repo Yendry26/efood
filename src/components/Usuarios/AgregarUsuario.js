@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
+import MaterialTable from "material-table";
+import axios from "axios";
+
 
 const roles = [
   {
@@ -65,17 +68,39 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 export default function AgregarUsuario() {
   let datos = {};
   const classes = useStyles();
-  const [rol, setRol] = React.useState(0);
-  const [estado, setEstado] = React.useState("");
-  const [preguntaSeguridad, setPreguntaSeguridad] = React.useState("");
-  const [nombre, setNombre] = React.useState("");
-  const [contrasena, setContrasena] = React.useState("");
-  const [correo, setCorreo] = React.useState("");
-  const [respuestaSecreta, setRespuestaSecreta] = React.useState("");
+  const [rol, setRol] = useState(0);
+  const [estado, setEstado] = useState("");
+  const [preguntaSeguridad, setPreguntaSeguridad] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [respuestaSecreta, setRespuestaSecreta] = useState("");
+  const [usuarios, setUsuarios] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
+  useEffect(async () => {
+    await getUsuarios()
+  }, []);
+
+  const getUsuarios = async () => {
+    setIsLoading(true)
+    try {
+      const res = await axios
+      .get(`https://localhost:44353//api/content/GetUsuario`)
+      setUsuarios(res.data)
+    } catch {
+
+    } finally {      
+      setIsLoading(false)
+    }
+  }
+
+  
   //! Inputs
   const handleNombre = event => {
     setNombre(event.target.value);
@@ -109,26 +134,31 @@ export default function AgregarUsuario() {
   };
 
   //! Guardar
-  const guardar = event => {
+  const guardar = async event => {
     event.preventDefault();
-    datos = {
-      ID_Rol: rol,
-      Nombre: nombre,
-      Contrasena: contrasena,
-      Correo: correo.toLocaleLowerCase(),
-      Pregunta_Seguridad: preguntaSeguridad,
-      Respuesta_Seguridad: respuestaSecreta,
-      Estado: estado
-    };
-
-    fetch(`https://10.211.55.3:45455/api/Content/PostUsuario`, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(datos)
-    });
+    setIsLoading(true)
+    try {
+      datos = {
+        ID_Rol: rol,
+        Nombre: nombre,
+        Contrasena: contrasena,
+        Correo: correo.toLocaleLowerCase(),
+        Pregunta_Seguridad: preguntaSeguridad,
+        Respuesta_Seguridad: respuestaSecreta,
+        Estado: estado
+      };
+  
+      await axios
+      .post('https://localhost:44353/api/Content/PostUsuario', datos)
+  
+      await getUsuarios()
+    } finally {
+      setIsLoading(false)
+    }
   };
 
   return (
+    <div className="">
     <form className={classes.container} noValidate autoComplete="off">
       <h1>Creacion de usuarios</h1>
       <div>
@@ -237,11 +267,40 @@ export default function AgregarUsuario() {
             className={classes.button}
             startIcon={<SaveIcon />}
             onClick={guardar}
+            disabled={isLoading}
           >
             Guardar
           </Button>
         </div>
       </div>
-    </form>
+    </form>  
+    <MaterialTable
+        isLoading={isLoading}
+        options={{
+          search: false,
+          sorting: false,
+          paging: false,
+          export: true,
+          padding: "dense"
+        }}
+        title="Lista de Productos"
+        columns={[
+          { title: "ID_Producto", field: "ID_Producto", editable: "never" },
+          { title: "ID_Tipo_Precio", field: "ID_Tipo_Precio" },
+          { title: "Nombre", field: "Nombre" },
+          { title: "Descripcion", field: "Descripcion" },
+          { title: "Foto", field: "Foto" }
+        ]}
+        data={usuarios}
+        editable={{
+          onRowUpdate: (newProduct, oldProduct) => (
+            this.updateProduct(newProduct, oldProduct)
+          ),
+          onRowDelete: producto => (
+            this.deleteProduct(producto)
+          )
+        }}
+      />
+    </div>
   );
 }
