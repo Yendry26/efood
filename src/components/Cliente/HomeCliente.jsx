@@ -40,6 +40,10 @@ import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import OutdoorGrillIcon from '@material-ui/icons/OutdoorGrill';
+
+import ReactDOM from "react-dom";
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/style";
 import "./Cliente.css";
 
 import Productos from "./Productos";
@@ -47,7 +51,9 @@ import Search from "./Search";
 import Pagar from "./Pagar";
 import FormaPago from "./FormaPago";
 import Carrito from "./Carrito";
-import Pedidos from './Pedidos'
+import Pedidos from './Pedidos';
+import App from '../App/App';
+import Facebook from "../Usuarios/Facebook";
 
 const drawerWidth = 240;
 
@@ -190,7 +196,7 @@ export default function HomeCliente({ cliente, items }) {
   const handleExit = event => {
     event.preventDefault();
     console.log("saliendo");
-
+    return <Facebook isLoggedIn = {false}/>
     window.location.replace("http://localhost:3000/login");
   };
 
@@ -202,11 +208,11 @@ export default function HomeCliente({ cliente, items }) {
     const hours = new Date().getHours();
     const isDayTime = hours > 5 && hours <= 11;
     const isNoon = hours > 11 && hours < 17;
-    const isNigth = hours >17  && hours < 4;
+    const isNigth = hours >17  && hours <= 4;
 
     console.log(hours);
     
-    if (isDayTime) {
+    if (true) {
       return (
         <div>
           <h2>
@@ -215,7 +221,7 @@ export default function HomeCliente({ cliente, items }) {
           </h2>
         </div>
       );
-    } else if (isNoon) {
+    } else if (true) {
       return (
         <div>
           <h2>
@@ -224,7 +230,7 @@ export default function HomeCliente({ cliente, items }) {
           </h2>
         </div>
       );
-    } else if (isNigth) {
+    } else if (true) {
       return (
         <div>
           <h2>

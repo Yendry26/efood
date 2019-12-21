@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 
 import Login from "../Login/Login";
+import Facebook from "../Usuarios/Facebook";
 
 import { createMuiTheme } from "@material-ui/core";
 const theme = createMuiTheme({
@@ -16,10 +17,12 @@ const theme = createMuiTheme({
 function App() {
   const [rol, setRol] = useState(0);
   const [cliente, setCliente ] = useState('')
+  
+
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Login onRolChange={setRol} landingRol={1} cliente={cliente} onClienteChange = {setCliente} />
+        <Login onRolChange={setRol} landingRol={rol} cliente={cliente} onClienteChange = {setCliente} />
       </ThemeProvider>
     </div>
   );

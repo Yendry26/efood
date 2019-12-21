@@ -11,17 +11,19 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
 
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import FastfoodIcon from '@material-ui/icons/Fastfood';
-import PaymentIcon from '@material-ui/icons/Payment';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
-import ErrorIcon from '@material-ui/icons/Error';
-import PageviewIcon from '@material-ui/icons/Pageview';
+import FastfoodIcon from "@material-ui/icons/Fastfood";
+import PaymentIcon from "@material-ui/icons/Payment";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import ErrorIcon from "@material-ui/icons/Error";
+import PageviewIcon from "@material-ui/icons/Pageview";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import Bitacora from "../Administracion/Bitacora";
 import Consecutivos from "../Administracion/Consecutivos";
@@ -34,10 +36,11 @@ import Pedidos from "../Administracion/Pedidos";
 import ProcesadorPago from "../Administracion/ProcesadorPago";
 import Productos from "../Administracion/Productos";
 import TiposPrecio from "../Administracion/TiposPrecio";
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-import LoyaltyIcon from '@material-ui/icons/Loyalty';
-import VerticalSplitIcon from '@material-ui/icons/VerticalSplit';
-import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
+import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
+import VerticalSplitIcon from "@material-ui/icons/VerticalSplit";
+import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const drawerWidth = 240;
 
@@ -45,10 +48,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
-  style: { 
-    color : "#FFF",
-    textDecoration : "none"
-
+  style: {
+    color: "#FFF",
+    textDecoration: "none"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1
@@ -68,6 +70,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AdminNav() {
+  const handleExit = event => {
+    event.preventDefault();
+    console.log("saliendo");
+
+    window.location.replace("http://localhost:3000/login");
+  };
   const classes = useStyles();
 
   return (
@@ -79,6 +87,16 @@ export default function AdminNav() {
             <Typography variant="h5" noWrap>
               E-Food > Admin
             </Typography>
+            <Tooltip title="Salir">
+              <IconButton
+                edge="end"
+                aria-haspopup="true"
+                onClick={handleExit}
+                color="inherit"
+              >
+                <ExitToAppIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -90,7 +108,7 @@ export default function AdminNav() {
         >
           <div className={classes.toolbar} />
           <List>
-             <Link  className={classes.style} to="/Productos">
+            <Link className={classes.style} to="/Productos">
               <ListItem className={classes.style} button key={"Productos"}>
                 <ListItemIcon>
                   <LocalLibraryIcon />
@@ -100,7 +118,7 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Consecutivos">
+            <Link className={classes.style} to="/Consecutivos">
               <ListItem className={classes.style} button key={"Consecutivos"}>
                 <ListItemIcon>
                   <ConfirmationNumberIcon />
@@ -110,18 +128,17 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Cupones">
+            <Link className={classes.style} to="/Cupones">
               <ListItem className={classes.style} button key={"Cupones"}>
                 <ListItemIcon>
-
-<LoyaltyIcon />
+                  <LoyaltyIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Cupones"} />
               </ListItem>
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/LineasComida">
+            <Link className={classes.style} to="/LineasComida">
               <ListItem className={classes.style} button key={"LineasComida"}>
                 <ListItemIcon>
                   <FastfoodIcon />
@@ -131,7 +148,7 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Tajetas">
+            <Link className={classes.style} to="/Tajetas">
               <ListItem className={classes.style} button key={"Tarjetas"}>
                 <ListItemIcon>
                   <PaymentIcon />
@@ -141,7 +158,7 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Pedidos">
+            <Link className={classes.style} to="/Pedidos">
               <ListItem className={classes.style} button key={"Pedidos"}>
                 <ListItemIcon>
                   <ListAltIcon />
@@ -151,8 +168,12 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/ProcesadorPago">
-              <ListItem className={classes.style} button key={"Procesador de Pago"}>
+            <Link className={classes.style} to="/ProcesadorPago">
+              <ListItem
+                className={classes.style}
+                button
+                key={"Procesador de Pago"}
+              >
                 <ListItemIcon>
                   <MonetizationOnIcon />
                 </ListItemIcon>
@@ -161,8 +182,12 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/TiposPrecio">
-              <ListItem className={classes.style} button key={"Tipos de Precio"}>
+            <Link className={classes.style} to="/TiposPrecio">
+              <ListItem
+                className={classes.style}
+                button
+                key={"Tipos de Precio"}
+              >
                 <ListItemIcon>
                   <VerticalSplitIcon />
                 </ListItemIcon>
@@ -171,7 +196,7 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Bitacora">
+            <Link className={classes.style} to="/Bitacora">
               <ListItem className={classes.style} button key={"Bitacora"}>
                 <ListItemIcon>
                   <LibraryBooksIcon />
@@ -181,7 +206,7 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Consulta">
+            <Link className={classes.style} to="/Consulta">
               <ListItem className={classes.style} button key={"Consulta"}>
                 <ListItemIcon>
                   <PageviewIcon />
@@ -191,10 +216,10 @@ export default function AdminNav() {
             </Link>
           </List>
           <List>
-             <Link  className={classes.style} to="/Errores">
+            <Link className={classes.style} to="/Errores">
               <ListItem className={classes.style} button key={"Errores"}>
                 <ListItemIcon>
-                  <ErrorIcon/>
+                  <ErrorIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Errores"} />
               </ListItem>
@@ -232,7 +257,7 @@ export default function AdminNav() {
                 <Productos />
               </Route>
 
-<Route exact path="/TiposPrecio">
+              <Route exact path="/TiposPrecio">
                 <TiposPrecio />
               </Route>
               <Route exact path="/Bitacora">

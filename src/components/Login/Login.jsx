@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, Route } from "react-router";
 import { BrowserHistory } from "react-router";
+import Facebook from "../Usuarios/Facebook";
 
 //? Material imports
 import Avatar from "@material-ui/core/Avatar";
@@ -62,7 +63,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Login({ landingRol, onRolChange, cliente, onClienteChange }) {
+export default function Login({
+  landingRol,
+  onRolChange,
+  cliente,
+  onClienteChange, 
+}) {
   const classes = useStyles();
   const [contrasena, setContrasena] = useState("");
   const [correo, setCorreo] = useState("");
@@ -97,7 +103,7 @@ export default function Login({ landingRol, onRolChange, cliente, onClienteChang
     fetch("https://10.211.55.3:45455/api/content/GetUsuario")
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        console.log(data);
         //! Busca el usuario y la contrasena
 
         if (!correo) {
@@ -134,7 +140,7 @@ export default function Login({ landingRol, onRolChange, cliente, onClienteChang
             console.log(`El rol encontrado es ${buscarCliente}`);
 
             onRolChange(buscarRolUsuario);
-            onClienteChange (buscarCliente);
+            onClienteChange(buscarCliente);
           } else {
             swal(
               "Usuario o contraseña incorrecto",
@@ -144,11 +150,13 @@ export default function Login({ landingRol, onRolChange, cliente, onClienteChang
           }
         }
       })
-      .catch(()=> swal(
-        "No se pudo conectar al servidor",
-        "API no está corriendo",
-        "error"
-      ))
+      .catch(() =>
+        swal(
+          "No se pudo conectar al servidor",
+          "API no está corriendo",
+          "error"
+        )
+      );
   };
 
   const cambioCuerpo = landingRol => {
@@ -161,73 +169,75 @@ export default function Login({ landingRol, onRolChange, cliente, onClienteChang
     ) {
       return (
         <div>
-          <NavBar usuarioRol={landingRol} cliente = {cliente} />
+          <NavBar usuarioRol={landingRol} cliente={cliente} />
         </div>
       );
     } else if (landingRol === 0) {
       return (
-        <Grid container component="main" className={classes.root}>
-          <CssBaseline />
-          <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid
-            item
-            xs={12}
-            sm={8}
-            md={5}
-            component={Paper}
-            elevation={6}
-            square
-          >
-            <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Iniciar Sesión
-              </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Correo"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  value={correo}
-                  onChange={handleCorreo}
-                  color="primary"
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Contraseña"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={contrasena}
-                  onChange={handleContrasena}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick={validarUsuario}
-                >
-                  Entrar
-                </Button>
-       
-              </form>
-            </div>
+        <div>
+          <Grid container component="main" className={classes.root}>
+            <CssBaseline />
+            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+            <Grid
+              item
+              xs={12}
+              sm={8}
+              md={5}
+              component={Paper}
+              elevation={6}
+              square
+            >
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Iniciar Sesión
+                </Typography>
+                <form className={classes.form} noValidate>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Correo"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={correo}
+                    onChange={handleCorreo}
+                    color="primary"
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Contraseña"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={contrasena}
+                    onChange={handleContrasena}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={validarUsuario}
+                  >
+                    Entrar
+                  </Button>
+                </form>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
+          <Facebook />
+        </div>
       );
     }
   };

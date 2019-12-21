@@ -128,7 +128,7 @@ export default function Search() {
           setProducto(data);
         }
       })
-      .catch(() => swal("Error", "No se pudo encontrar producto", "error"));
+      .catch(() => swal("Error", "API no está corriendo", "error"));
   };
 
   const postError = async () => {
