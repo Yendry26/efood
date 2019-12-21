@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import MaterialTable from "material-table";
 import axios from "axios";
+import swal from "sweetalert";
+
 
 
 const roles = [
@@ -83,22 +85,46 @@ export default function AgregarUsuario() {
   const [usuarios, setUsuarios] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(async () => {
-    await getUsuarios()
+  useEffect( () => {
+     getUsuarios();
   }, []);
 
-  const getUsuarios = async () => {
-    setIsLoading(true)
-    try {
-      const res = await axios
-      .get(`https://localhost:44353//api/content/GetUsuario`)
-      setUsuarios(res.data)
-    } catch {
+  // const getUsuarios = async () => {
+  //   setIsLoading(true)
+  //   try {
+  //     const res = await axios
+  //     .get(`https://10.211.55.3:45455:44353/api/content/GetUsuario`)
+  //     setUsuarios(res.data)
+  //     console.log(res.data);
+      
+  //   } catch {
 
-    } finally {      
+  //   } finally {      
+  //     setIsLoading(false)
+  //   }
+  // }
+
+  const getUsuarios = async () => {
+    const response = await fetch(
+      `https://10.211.55.3:45455/api/content/GetUsuario`
+    )
+      .then(res => res.json())
+      .then(data => {
+        //! Busca el usuario y la contrasena
+        console.log(data);
+        setUsuarios(data);
+      })
+      .catch(() =>
+       swal(
+          "No se pudo conectar al servidor",
+          "API no está corriendo",
+          "error"
+        )
+      );
       setIsLoading(false)
-    }
-  }
+  };
+
+
 
   
   //! Inputs
@@ -149,13 +175,16 @@ export default function AgregarUsuario() {
       };
   
       await axios
-      .post('https://localhost:44353/api/Content/PostUsuario', datos)
-  
+      .post('https://10.211.55.3:45455:44353/api/Content/PostUsuario', datos)
+      
       await getUsuarios()
     } finally {
       setIsLoading(false)
+      console.log(datos);
+      
     }
   };
+  console.log(datos);
 
   return (
     <div className="">
@@ -285,11 +314,10 @@ export default function AgregarUsuario() {
         }}
         title="Lista de Productos"
         columns={[
-          { title: "ID_Producto", field: "ID_Producto", editable: "never" },
-          { title: "ID_Tipo_Precio", field: "ID_Tipo_Precio" },
+          { title: "ID", field: "ID", editable: "never" },
           { title: "Nombre", field: "Nombre" },
-          { title: "Descripcion", field: "Descripcion" },
-          { title: "Foto", field: "Foto" }
+          { title: "Contrasena", field: ""},
+          { title: "Correo", field: "Correo" , editable: "never"  }
         ]}
         data={usuarios}
         editable={{

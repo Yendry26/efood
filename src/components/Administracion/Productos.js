@@ -25,9 +25,7 @@ const theme = createMuiTheme({
 export default class Productos extends React.Component {
   state = {
     data: [],
-    columns: [],
-    Nombre: "", //!POST USER
-    ID_Rol: "" //!POST USER
+    columns: []
   };
 
   //!POST Producto
@@ -37,77 +35,90 @@ export default class Productos extends React.Component {
 
   //! GET Producto
   componentDidMount() {
-    axios
-      .get(`https://localhost:44353//api/content/GetProducto`)
-      .then(res => {
-        this.setState({ data: res.data });
-        console.log(this.state.data, "GET from  DB");
-      });
+    axios.get(`https://10.211.55.3:45455/api/content/GetProducto`).then(res => {
+      this.setState({ data: res.data });
+      console.log(this.state.data, "GET from  DB");
+    });
   }
 
-  deleteProduct = async (producto) => {
+  deleteProduct = async producto => {
     try {
       // Delete from server
-      const url = `https://localhost:44353/api/content/DeleteProducto/${producto.ID_Producto}`
-      await axios.delete(url)
-      
+      const url = `https://10.211.55.3:45455/api/content/DeleteProducto/${producto.ID_Producto}`;
+      await axios.delete(url);
+
       // Delete from UI
       let data = this.state.data;
       const index = data.indexOf(producto);
       data.splice(index, 1);
       this.setState({ data });
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   updateProduct = async (newProduct, oldProduct) => {
     try {
       // Delete from server
-      const url = `https://localhost:44353/api/content/PutProducto/${oldProduct.ID_Producto}`
-      await axios.put(url, newProduct)
-      
+      const url = `https://10.211.55.3:45455/api/content/PutProducto/${oldProduct.ID_Producto}`;
+      await axios.put(url, newProduct);
+
       // Update from UI
       const data = this.state.data;
-      console.log(data)
+      console.log(data);
       const index = data.indexOf(oldProduct);
       data[index] = newProduct;
       this.setState({ data });
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
+
+  addProduct = async newProduct => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455/api/content/PostProducto/`;
+      await axios.post(url, newProduct);
+
+      // Update from UI
+      const data = this.state.data;
+      data.push(newProduct);
+      console.log(data);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   render() {
     return (
-      <MaterialTable
-        options={{
-          search: false,
-          sorting: false,
-          paging: false,
-          export: true,
-          padding: "dense"
-        }}
-        title="Lista de Productos"
-        columns={[
-          { title: "ID_Producto", field: "ID_Producto", editable: "never" },
-          { title: "ID_Tipo_Precio", field: "ID_Tipo_Precio" },
-          { title: "Nombre", field: "Nombre" },
-          { title: "Descripcion", field: "Descripcion" },
-          { title: "Foto", field: "Foto" }
-        ]}
-        data={this.state.data}
-        editable={{
-          onRowUpdate: (newProduct, oldProduct) => (
-            this.updateProduct(newProduct, oldProduct)
-          ),
-          onRowDelete: producto => (
-            this.deleteProduct(producto)
-          )
-        }}
-      />
+      <div className=" w3-animate-zoom">
+        <MaterialTable
+          options={{
+            padding: "dense"
+          }}
+          title="Lista de Productos"
+          columns={[
+            { title: "ID Producto", field: "ID_Producto", editable: "never" },
+            { title: "Tipo Precio", field: "ID_Tipo_Precio" },
+            { title: "Nombre", field: "Nombre" },
+            { title: "Descripcion", field: "Descripcion" },
+            { title: "Ingredientes", field: "Ingredientes" },
+            { title: "ID_Consecutivo", field: "ID_Consecutivo" },
+            { title: "Foto", field: "Foto" },
+            
+          ]}
+          data={this.state.data}
+          editable={{
+            onRowAdd: newProduct => this.addProduct(newProduct),
+
+            onRowUpdate: (newProduct, oldProduct) =>
+              this.updateProduct(newProduct, oldProduct),
+
+            onRowDelete: producto => this.deleteProduct(producto)
+          }}
+        />
+      </div>
     );
   }
 }

@@ -19,7 +19,7 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Login onRolChange={setRol} landingRol={1002} cliente={cliente} onClienteChange = {setCliente} />
+        <Login onRolChange={setRol} landingRol={1} cliente={cliente} onClienteChange = {setCliente} />
       </ThemeProvider>
     </div>
   );
