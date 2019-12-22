@@ -1,6 +1,5 @@
 import React from "react";
 import MaterialTable from "material-table";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import axios from "axios";
 
@@ -36,7 +35,7 @@ export default class Productos extends React.Component {
 
   //! GET Producto
   componentDidMount() {
-    axios.get(`https://10.211.55.3:45455/api/content/GetProducto`).then(res => {
+    axios.get(`https://10.211.55.3:45455//api/content/GetProducto`).then(res => {
       this.setState({ data: res.data });
       console.log(this.state.data, "GET from  DB");
     });
@@ -45,7 +44,7 @@ export default class Productos extends React.Component {
   deleteProduct = async producto => {
     try {
       // Delete from server
-      const url = `https://10.211.55.3:45455/api/content/DeleteProducto/${producto.ID_Producto}`;
+      const url = `https://10.211.55.3:45455//api/content/DeleteProducto/${producto.ID_Producto}`;
       await axios.delete(url);
 
       // Delete from UI
@@ -61,7 +60,7 @@ export default class Productos extends React.Component {
   updateProduct = async (newProduct, oldProduct) => {
     try {
       // Delete from server
-      const url = `https://10.211.55.3:45455/api/content/PutProducto/${oldProduct.ID_Producto}`;
+      const url = `https://10.211.55.3:45455//api/content/PutProducto/${oldProduct.ID_Producto}`;
       await axios.put(url, newProduct);
 
       // Update from UI
@@ -78,7 +77,7 @@ export default class Productos extends React.Component {
   addProduct = async newProduct => {
     try {
       // Delete from server
-      const url = `https://10.211.55.3:45455/api/content/PostProducto/`;
+      const url = `https://10.211.55.3:45455//api/content/PostProducto/`;
       await axios.post(url, newProduct);
 
       // Update from UI

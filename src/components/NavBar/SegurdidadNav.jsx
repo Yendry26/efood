@@ -13,6 +13,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+
 
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
@@ -61,7 +65,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function SeguridadNav() {
   const classes = useStyles();
+  const handleExit = event => {
+    event.preventDefault();
+    console.log("saliendo");
 
+    window.location.replace("http://localhost:3000/login");
+  };
   return (
     <div className={classes.root}>
       <Router>
@@ -71,6 +80,16 @@ export default function SeguridadNav() {
             <Typography variant="h5" noWrap>
               E-Food > Seguridad
             </Typography>
+            <Tooltip title="Salir">
+              <IconButton
+                edge="end"
+                aria-haspopup="true"
+                onClick={handleExit}
+                color="inherit"
+              >
+                <ExitToAppIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
         <Drawer

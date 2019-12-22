@@ -28,15 +28,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Proceder con la compra', 'Forma de pago', 'Comprar'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`;
+      return `Comprar productos.`;
     case 1:
       return ( <Pagar/>)
     case 2:
@@ -63,15 +61,13 @@ export default function FormaPago() {
   };
 
   const handleReset = () => {
+    
     setActiveStep(0);
   };
 
   return (
     <div className={classes.root}>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+       
         <br/>
         <br/>
         <br/>
@@ -88,7 +84,7 @@ export default function FormaPago() {
                     onClick={handleBack}
                     className={classes.button}
                   >
-                    Back
+                    Atras
                   </Button>
                   <Button
                     variant="contained"
@@ -96,7 +92,7 @@ export default function FormaPago() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Finalizar' : 'Siguiente'}
                   </Button>
                 </div>
               </div>
@@ -106,9 +102,8 @@ export default function FormaPago() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
           <Button onClick={handleReset} className={classes.button}>
-            Reset
+              Gracias por su compra!!!
           </Button>
         </Paper>
       )}

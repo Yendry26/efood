@@ -23,29 +23,73 @@ const theme = createMuiTheme({
 });
 
 export default class Bitacora extends React.Component {
+
   state = {
-    personas: [],
-    columns: [],
-    Nombre: "", //!POST USER
-    ID_Rol: "" //!POST USER
+    data: [],
+    columns: []
   };
 
-  //!POST User
+  //!POST Producto
   handleChange = event => {
     this.setState({ name: event.target.value });
   };
 
-  //! GET User
+  //! GET Producto
   componentDidMount() {
-    axios
-      .get(`https://10.211.55.3:45455/api/content/GetBitacora`)
-      .then(res => {
-        this.setState({ personas: res.data });
-        console.log(this.state.personas, "GET from  DB");
-        const datos = JSON.stringify(this.state.personas);
-        this.setState({ personas: datos });
-      });
+    axios.get(`https://10.211.55.3:45455//api/content/GetBitacora`).then(res => {
+      this.setState({ data: res.data });
+      console.log(this.state.data, "GET from  DB");
+    });
   }
+
+  deleteProduct = async bitacora => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/DeleteBitacora/${bitacora.ID}`;
+      await axios.delete(url);
+
+      // Delete from UI
+      let data = this.state.data;
+      const index = data.indexOf(bitacora);
+      data.splice(index, 1);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  updateProduct = async (newBitacora, oldBitacora) => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/PutBitacora/${oldBitacora.ID_Producto}`;
+      await axios.put(url, newBitacora);
+
+      // Update from UI
+      const data = this.state.data;
+      console.log(data);
+      const index = data.indexOf(oldBitacora);
+      data[index] = newBitacora;
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  addProduct = async newBitacora => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/PostBitacora/`;
+      await axios.post(url, newBitacora);
+
+      // Update from UI
+      const data = this.state.data;
+      data.push(newBitacora);
+      console.log(data);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   render() {
     return (
@@ -65,32 +109,14 @@ export default class Bitacora extends React.Component {
           { title: "Fecha_Hora", field: "Fecha_Hora" },
           { title: "Accion", field: "Accion" }
         ]}
-        data={this.state.personas}
+        data={this.state.data}
         editable={{
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data[index] = newData;
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  let data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data.splice(index, 1);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            })
+            onRowAdd: newBitacora => this.addBitacora(newBitacora),
+
+            onRowUpdate: (newBitacora, oldBitacora) =>
+              this.updateUsuario(newBitacora, oldBitacora),
+
+            onRowDelete: Bitacora => this.deleteBitacora(Bitacora)
         }}
       />
     );

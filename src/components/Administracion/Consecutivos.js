@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import MaterialTable from "material-table";
 
 import axios from "axios";
@@ -22,80 +22,82 @@ const theme = createMuiTheme({
   }
 });
 
-export default class Consecutivos extends React.Component {
+export default class Consecutivos extends Component {
   state = {
-    personas: [],
-    columns: [],
-    Nombre: "", //!POST USER
-    ID_Rol: "" //!POST USER
+    data: [],
+    columns: []
   };
 
-  //!POST User
+  //!POST Consecutivo
   handleChange = event => {
     this.setState({ name: event.target.value });
   };
 
-  //! GET User
+  //! GET Consecutivo
   componentDidMount() {
-    axios
-      .get(`https://10.211.55.3:45455/api/content/GetConsecutivo`)
-      .then(res => {
-        this.setState({ personas: res.data });
-        console.log(this.state.personas, "GET from  DB");
-        const datos = JSON.stringify(this.state.personas);
-        this.setState({ personas: datos });
-      });
+    axios.get(`https://10.211.55.3:45455//api/Content/GetConsecutivo`).then(res => {
+      this.setState({ data: res.data });
+      console.log(this.state.data, "GET from  DB");
+    });
   }
+  updateConsecutivo = async (newConsecutivo, oldConsecutivo) => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/Content/PutConsecutivo/${oldConsecutivo.ID_Consecutivo}`;
+      await axios.put(url, newConsecutivo);
+
+      // Update from UI
+      const data = this.state.data;
+      console.log(data);
+      const index = data.indexOf(oldConsecutivo);
+      data[index] = newConsecutivo;
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  addConsecutivo = async newConsecutivo => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/PostConsecutivo/`;
+      await axios.post(url, newConsecutivo);
+
+      // Update from UI
+      const data = this.state.data;
+      data.push(newConsecutivo);
+      console.log(data);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+
+    }
+    
+  };
 
   render() {
     return (
-      <MaterialTable
-        options={{
-          search: false,
-          sorting: false,
-          paging: false,
-          export: true,
-          padding: "dense"
-        }}
-        title="Lista de Consecutivos"
-        columns={[
-          {
-            title: "ID Consecutivo",
-            field: "ID_Consecutivo",
-            editable: "never"
-          },
-          { title: "Descripcion", field: "Descripcion" },
-          { title: "Prefijo", field: "Prefijo" },
-          { title: "Consecutivo_Num", field: "Consecutivo_num" }
-        ]}
-        data={this.state.personas}
-        editable={{
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data[index] = newData;
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  let data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data.splice(index, 1);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            })
-        }}
-      />
+      <div className=" w3-animate-zoom">
+        <MaterialTable
+          options={{
+            padding: "dense"
+          }}
+          title="Lista de Consecutivos"
+          columns={[
+          { title: "Consecutivo", field: "Consecutivo_num", editable:"onAdd"},
+          { title: "Descripcion", field: "Descripcion", editable: "onAdd" },
+          { title: "ID Consecutivo", field: "ID_Consecutivo", editable:'never'},
+          { title: "Prefijo", field: "Prefijo", type:'hidden'},
+                    ]}
+          data={this.state.data}
+          editable={{
+            onRowAdd: newUsuario => this.addConsecutivo(newUsuario),
+
+            onRowUpdate: (newUsuario, oldUsuario) =>
+              this.updateConsecutivo(newUsuario, oldUsuario),
+          }}
+        />
+      </div>
     );
   }
 }

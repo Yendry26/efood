@@ -232,11 +232,12 @@ export default function Login({
                   >
                     Entrar
                   </Button>
+                  <Facebook/>
+
                 </form>
               </div>
             </Grid>
           </Grid>
-          <Facebook />
         </div>
       );
     }

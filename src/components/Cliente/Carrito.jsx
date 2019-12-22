@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Articulos from "./Articulos";
 import Typography from "@material-ui/core/Typography";
-
+import Total from "./Total";
+import FormaPago from "./FormaPago";
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
@@ -58,10 +59,19 @@ export default function Carrito() {
             <Typography variant="h3" component="h3">
               Total
             </Typography>
+            <Total />
+            <br />
+
           </Paper>
           <br />
           <br />
           <br />
+          <Paper className={classes.inside}>
+            <Typography variant="h3" component="h3">
+              Pagar
+            </Typography>
+            <FormaPago />
+          </Paper>
         </Paper>
       </div>
       <br />

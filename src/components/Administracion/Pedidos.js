@@ -22,28 +22,74 @@ const theme = createMuiTheme({
   }
 });
 
-export default class Pedidos extends React.Component {
+export default class Pedido extends React.Component {
+
   state = {
-    personas: [],
-    columns: [],
-    Nombre: "", //!POST USER
-    ID_Rol: "" //!POST USER
+    data: [],
+    columns: []
   };
 
-  //!POST User
+  //!POST Producto
   handleChange = event => {
     this.setState({ name: event.target.value });
   };
 
-  //! GET User
+  //! GET Producto
   componentDidMount() {
-    axios.get(`https://10.211.55.3:45455/api/content/GetPedido`).then(res => {
-      this.setState({ personas: res.data });
-      console.log(this.state.personas, "GET from  DB");
-      const datos = JSON.stringify(this.state.personas);
-      this.setState({ personas: datos });
+    axios.get(`https://10.211.55.3:45455//api/content/GetPedidos`).then(res => {
+      this.setState({ data: res.data });
+      console.log(this.state.data, "GET from  DB");
     });
   }
+
+  deleteProduct = async Pedido => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/DeletePedidos/${Pedido.ID_Pedido}`;
+      await axios.delete(url);
+
+      // Delete from UI
+      let data = this.state.data;
+      const index = data.indexOf(Pedido);
+      data.splice(index, 1);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  updateProduct = async (newPedido, oldPedido) => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/PutBitacora/${oldPedido.ID_Pedido}`;
+      await axios.put(url, newPedido);
+
+      // Update from UI
+      const data = this.state.data;
+      console.log(data);
+      const index = data.indexOf(oldPedido);
+      data[index] = newPedido;
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  addProduct = async newPedido => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/PostBitacora/`;
+      await axios.post(url, newPedido);
+
+      // Update from UI
+      const data = this.state.data;
+      data.push(newPedido);
+      console.log(data);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   render() {
     return (
@@ -55,45 +101,22 @@ export default class Pedidos extends React.Component {
           export: true,
           padding: "dense"
         }}
-        title="Lista de Pedidos"
+        title="Pedido"
         columns={[
-          {
-            title: "ID_Pedido",
-            field: "ID_Pedido",
-            editable: "never"
-          },
+          { title: "ID_Pedido", field: "ID_Pedido", editable: "never" },
           { title: "ID_Usuario", field: "ID_Usuario" },
           { title: "ID_Codigo", field: "ID_Codigo" },
-          { title: "Fecha_Hora", field: "Fecha_Hora" },
           { title: "Estado", field: "Estado" },
           { title: "Monto", field: "Monto" }
         ]}
-        data={this.state.personas}
+        data={this.state.data}
         editable={{
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data[index] = newData;
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  let data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data.splice(index, 1);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve();
-              }, 1000);
-            })
+            onRowAdd: newPedido => this.addBitacora(newPedido),
+
+            onRowUpdate: (newPedido, oldPedido) =>
+              this.updateUsuario(newPedido, oldPedido),
+
+            onRowDelete: Pedido => this.DeletePedidos(Pedido)
         }}
       />
     );

@@ -19,6 +19,9 @@ import Cupones from "../Administracion/Cupones";
 import LineasComida from "../Administracion/LineasComida";
 import Productos from "../Administracion/Productos";
 import TiposPrecio from "../Administracion/TiposPrecio";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
 
 const drawerWidth = 240;
 
@@ -50,6 +53,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function MantenimientoNav() {
   const classes = useStyles();
+  const handleExit = event => {
+    event.preventDefault();
+    console.log("saliendo");
+
+    window.location.replace("http://localhost:3000/login");
+  };
 
   return (
     <div className={classes.root}>
@@ -60,6 +69,16 @@ export default function MantenimientoNav() {
             <Typography variant="h5" noWrap>
               E-Food > Mantenimiento
             </Typography>
+            <Tooltip title="Salir">
+              <IconButton
+                edge="end"
+                aria-haspopup="true"
+                onClick={handleExit}
+                color="inherit"
+              >
+                <ExitToAppIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
         <Drawer

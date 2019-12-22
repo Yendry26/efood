@@ -22,7 +22,8 @@ export default class Facebook extends Component {
     picture: ""
   };
 
-  componentClicked = e => e.preventDefault();
+  componentClicked = e => console.log("Clicke");
+  ;
 
   addUser = async newUser => {
     try {
@@ -99,12 +100,7 @@ export default class Facebook extends Component {
         </div>
         
       );
-      return ReactDOM.render(
-        <ThemeProvider theme={theme}>
-          <App/>
-        </ThemeProvider>,
-        document.getElementById("root")
-      );
+      
     }
     console.log(this.state.name);
 

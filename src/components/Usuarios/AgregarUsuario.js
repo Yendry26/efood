@@ -1,334 +1,126 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
-import SaveIcon from "@material-ui/icons/Save";
+import React, { Component } from "react";
 import MaterialTable from "material-table";
+
 import axios from "axios";
-import swal from "sweetalert";
 
+import { createMuiTheme } from "@material-ui/core/styles";
 
-
-const roles = [
-  {
-    value: 1,
-    label: "Administrador"
-  },
-  {
-    value: 2,
-    label: "Seguridad"
-  },
-  {
-    value: 3,
-    label: "Mantenimiento"
-  },
-  {
-    value: 4,
-    label: "Consulta"
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#757ce8",
+      main: "#3f50b5",
+      dark: "#002884",
+      contrastText: "#fff"
+    },
+    secondary: {
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#ba000d",
+      contrastText: "#000"
+    }
   }
-];
+});
 
-const preguntas = [
-  {
-    value: "Nombre de primer mascota",
-    label: "Nombre de primer mascota"
-  },
-  {
-    value: "Equipo favorito",
-    label: "Equipo favorito"
-  },
-  {
-    value: "Lugar de vacaciones el año pasado",
-    label: "Lugar de vacaciones el año pasado"
+export default class Usuarios extends Component {
+  state = {
+    data: [],
+    columns: []
+  };
+
+  //!POST Usuario
+  handleChange = event => {
+    this.setState({ name: event.target.value });
+  };
+
+  //! GET Usuario
+  componentDidMount() {
+    axios.get(`https://10.211.55.3:45455//api/Content/GetUsuario`).then(res => {
+      this.setState({ data: res.data });
+      console.log(this.state.data, "GET from  DB");
+    });
   }
-];
 
-const estados = [
-  {
-    value: 1,
-    label: "Activo"
-  },
-  {
-    value: 2,
-    label: "Inactivo"
-  }
-];
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 400
-  },
-  menu: {
-    width: 600
-  }
-}));
-
-
-
-export default function AgregarUsuario() {
-  let datos = {};
-  const classes = useStyles();
-  const [rol, setRol] = useState(0);
-  const [estado, setEstado] = useState("");
-  const [preguntaSeguridad, setPreguntaSeguridad] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [contrasena, setContrasena] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [respuestaSecreta, setRespuestaSecreta] = useState("");
-  const [usuarios, setUsuarios] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect( () => {
-     getUsuarios();
-  }, []);
-
-  // const getUsuarios = async () => {
-  //   setIsLoading(true)
-  //   try {
-  //     const res = await axios
-  //     .get(`https://10.211.55.3:45455:44353/api/content/GetUsuario`)
-  //     setUsuarios(res.data)
-  //     console.log(res.data);
-      
-  //   } catch {
-
-  //   } finally {      
-  //     setIsLoading(false)
-  //   }
-  // }
-
-  const getUsuarios = async () => {
-    const response = await fetch(
-      `https://10.211.55.3:45455/api/content/GetUsuario`
-    )
-      .then(res => res.json())
-      .then(data => {
-        //! Busca el usuario y la contrasena
-        console.log(data);
-        setUsuarios(data);
-      })
-      .catch(() =>
-       swal(
-          "No se pudo conectar al servidor",
-          "API no está corriendo",
-          "error"
-        )
-      );
-      setIsLoading(false)
-  };
-
-
-
-  
-  //! Inputs
-  const handleNombre = event => {
-    setNombre(event.target.value);
-  };
-
-  const handleContrasena = event => {
-    setContrasena(event.target.value);
-  };
-
-  const handleCorreo = event => {
-    setCorreo(event.target.value);
-  };
-
-  const handleRespuestaSecreta = event => {
-    setRespuestaSecreta(event.target.value);
-  };
-
-  const handleChange = event => {
-    event.preventDefault();
-
-    setRol(event.target.value);
-  };
-  const handleChangeE = event => {
-    event.preventDefault();
-
-    setEstado(event.target.value);
-  };
-  const handleChangeP = event => {
-    event.preventDefault();
-    setPreguntaSeguridad(event.target.value);
-  };
-
-  //! Guardar
-  const guardar = async event => {
-    event.preventDefault();
-    setIsLoading(true)
+  deleteUsuario = async Usuario => {
     try {
-      datos = {
-        ID_Rol: rol,
-        Nombre: nombre,
-        Contrasena: contrasena,
-        Correo: correo.toLocaleLowerCase(),
-        Pregunta_Seguridad: preguntaSeguridad,
-        Respuesta_Seguridad: respuestaSecreta,
-        Estado: estado
-      };
-  
-      await axios
-      .post('https://10.211.55.3:45455:44353/api/Content/PostUsuario', datos)
-      
-      await getUsuarios()
-    } finally {
-      setIsLoading(false)
-      console.log(datos);
-      
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/DeleteUsuario/${Usuario.ID}`;
+      await axios.delete(url);
+
+      // Delete from UI
+      let data = this.state.data;
+      const index = data.indexOf(Usuario);
+      data.splice(index, 1);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
     }
   };
-  console.log(datos);
 
-  return (
-    <div className="">
-    <form className={classes.container} noValidate autoComplete="off">
-      <h1>Creacion de usuarios</h1>
-      <div>
-        <div>
-          <TextField
-            id="Nombre"
-            className={classes.textField}
-            label="Nombre Completo"
-            margin="normal"
-            value={nombre}
-            onChange={handleNombre}
-          />
-          <TextField
-            id="Contraseña"
-            label="Contraseña"
-            className={classes.textField}
-            type="password"
-            autoComplete="current-password"
-            margin="normal"
-            value={contrasena}
-            onChange={handleContrasena}
-          />
+  updateUsuario = async (newUsuario, oldUsuario) => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/Content/PutUsuario/${oldUsuario.ID}`;
+      await axios.put(url, newUsuario);
 
-          <TextField
-            id="standard-basic"
-            className={classes.textField}
-            label="Correo"
-            margin="normal"
-            value={correo}
-            onChange={handleCorreo}
-          />
-        </div>
-        <TextField
-          id="standard-select-question"
-          select
-          className={classes.textField}
-          value={preguntaSeguridad}
-          onChange={handleChangeP}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu
-            }
+      // Update from UI
+      const data = this.state.data;
+      console.log(data);
+      const index = data.indexOf(oldUsuario);
+      data[index] = newUsuario;
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  addUsuario = async newUsuario => {
+    try {
+      // Delete from server
+      const url = `https://10.211.55.3:45455//api/content/PostUsuario/`;
+      await axios.post(url, newUsuario);
+
+      // Update from UI
+      const data = this.state.data;
+      data.push(newUsuario);
+      console.log(data);
+      this.setState({ data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  render() {
+    return (
+      <div className=" w3-animate-zoom">
+        <MaterialTable
+          options={{
+            padding: "dense"
           }}
-          helperText="Pregunta de seguridad"
-          margin="normal"
-        >
-          {preguntas.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          id="Respuesta_Seguridad"
-          className={classes.textField}
-          label="Respuesta de seguridad"
-          margin="normal"
-          value={respuestaSecreta}
-          onChange={handleRespuestaSecreta}
-        />
-        <TextField
-          id="standard-select-rol"
-          select
-          className={classes.textField}
-          value={rol}
-          onChange={handleChange}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu
-            }
-          }}
-          helperText="Seleccioná un rol"
-          margin="normal"
-        >
-          {roles.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          id="standard-select-status"
-          select
-          className={classes.textField}
-          value={estado}
-          onChange={handleChangeE}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu
-            }
-          }}
-          helperText="Estado"
-          margin="normal"
-        >
-          {estados.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            className={classes.button}
-            startIcon={<SaveIcon />}
-            onClick={guardar}
-            disabled={isLoading}
-          >
-            Guardar
-          </Button>
-        </div>
-      </div>
-    </form>  
-    <MaterialTable
-        isLoading={isLoading}
-        options={{
-          search: false,
-          sorting: false,
-          paging: false,
-          export: true,
-          padding: "dense"
-        }}
-        title="Lista de Productos"
-        columns={[
+          title="Lista de Usuarios"
+          columns={[
+          { title: "Rol", field: "ID_Rol", lookup:{ 1:'Administrativo', 2:'Seguridad', 3:'Mantenimiento', 4:'Consulta', 1002:'Usuario'}},
           { title: "ID", field: "ID", editable: "never" },
           { title: "Nombre", field: "Nombre" },
-          { title: "Contrasena", field: ""},
-          { title: "Correo", field: "Correo" , editable: "never"  }
-        ]}
-        data={usuarios}
-        editable={{
-          onRowUpdate: (newProduct, oldProduct) => (
-            this.updateProduct(newProduct, oldProduct)
-          ),
-          onRowDelete: producto => (
-            this.deleteProduct(producto)
-          )
-        }}
-      />
-    </div>
-  );
+          { title: "Contrasena", field: "Contrasena", type:'hidden'},
+          { title: "Correo", field: "Correo" , editable:'onAdd'  },
+          { title: "Pregunta de Seguridad", field: "Pregunta_Seguridad", lookup:{ 'Equipo favorito':'Equipo favorito', 'Escuela Primaria':'Escuela Primaria', 'Primer Mascota':'Primera Mascota', 'test':'test'}},
+          { title: "Respuesta de Seguridad", field: "Respuesta_Seguridad"},
+          { title: "Estado", field:"Estado", lookup:{1:'Activo', 2:'Inactivo'}}
+
+            
+          ]}
+          data={this.state.data}
+          editable={{
+            onRowAdd: newUsuario => this.addUsuario(newUsuario),
+
+            onRowUpdate: (newUsuario, oldUsuario) =>
+              this.updateUsuario(newUsuario, oldUsuario),
+
+            onRowDelete: Usuario => this.deleteUsuario(Usuario)
+          }}
+        />
+      </div>
+    );
+  }
 }

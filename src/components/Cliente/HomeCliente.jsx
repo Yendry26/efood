@@ -42,8 +42,9 @@ import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import OutdoorGrillIcon from '@material-ui/icons/OutdoorGrill';
 
 import ReactDOM from "react-dom";
+
+
 import { createMuiTheme } from "@material-ui/core";
-import { ThemeProvider } from "@material-ui/style";
 import "./Cliente.css";
 
 import Productos from "./Productos";
@@ -196,7 +197,7 @@ export default function HomeCliente({ cliente, items }) {
   const handleExit = event => {
     event.preventDefault();
     console.log("saliendo");
-    return <Facebook isLoggedIn = {false}/>
+
     window.location.replace("http://localhost:3000/login");
   };
 

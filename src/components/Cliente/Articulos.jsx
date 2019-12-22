@@ -121,10 +121,10 @@ export default class Articulos extends React.Component {
             padding: "dense"
           }}
           columns={[
-            { title: "Nombre", field: "Descripcion" },
-            { title: "Descripcion", field: "Descripcion" },
+            { title: "Nombre", field: "Descripcion", editable : "never" },
+            { title: "Descripcion", field: "Descripcion" , editable : "never"},
             { title: "Cantidad", field: "Cantidad", type: "numeric" },
-            { title: "Precio", field: "Precio" }
+            { title: "Precio", field: "Precio" ,  editable : "never"}
           ]}
           data={this.state.data}
           editable={{

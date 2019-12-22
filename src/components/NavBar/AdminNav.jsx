@@ -11,7 +11,6 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
 
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
@@ -23,7 +22,6 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import ErrorIcon from "@material-ui/icons/Error";
 import PageviewIcon from "@material-ui/icons/Pageview";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import Bitacora from "../Administracion/Bitacora";
 import Consecutivos from "../Administracion/Consecutivos";
@@ -41,6 +39,10 @@ import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import VerticalSplitIcon from "@material-ui/icons/VerticalSplit";
 import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+
+
 
 const drawerWidth = 240;
 
